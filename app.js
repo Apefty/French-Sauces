@@ -25,7 +25,28 @@ function rebuildTG() {
   });
 }
 
-// ── FIREBASE SYNC ─────────────────────────────────────────────────────
+// ── FIREBASE ──────────────────────────────────────────────────────────
+const FB_CFG = {
+  apiKey: "AIzaSyAcRD5GzqvgtvBTEAm2MQWULrhmVsjyciE",
+  authDomain: "sauce-app-c21f9.firebaseapp.com",
+  projectId: "sauce-app-c21f9",
+  storageBucket: "sauce-app-c21f9.firebasestorage.app",
+  messagingSenderId: "992877586399",
+  appId: "1:992877586399:web:0b25b8796cc7864e6a866a"
+};
+
+let _db = null;
+
+async function getDB() {
+  if (_db) return _db;
+  const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js");
+  const { getFirestore, doc, getDoc, setDoc, deleteDoc, collection, onSnapshot } =
+    await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+  const app = initializeApp(FB_CFG);
+  _db = { fs: getFirestore(app), doc, getDoc, setDoc, deleteDoc, collection, onSnapshot };
+  return _db;
+}
+
 function syncStatus(msg, err = false) {
   const el = document.getElementById("sync-status");
   el.textContent = msg;
@@ -36,8 +57,10 @@ function syncStatus(msg, err = false) {
 
 async function loadUserData() {
   try {
-    const d = await window.FB.getUserData("main");
-    if (d) {
+    const { fs, doc, getDoc } = await getDB();
+    const snap = await getDoc(doc(fs, "userdata", "main"));
+    if (snap.exists()) {
+      const d = snap.data();
       favs = d.favs || [];
       notes = d.notes || {};
     }
@@ -46,19 +69,40 @@ async function loadUserData() {
 
 async function saveUserData() {
   try {
-    await window.FB.saveUserData("main", { favs, notes });
+    const { fs, doc, setDoc } = await getDB();
+    await setDoc(doc(fs, "userdata", "main"), { favs, notes });
   } catch(e) { console.warn("Could not save user data", e); }
 }
 
-// ── INIT (called after Firebase ready) ───────────────────────────────
+async function listenSauces(cb) {
+  const { fs, collection, onSnapshot } = await getDB();
+  return onSnapshot(collection(fs, "sauces"), snap => {
+    const r = {};
+    snap.forEach(d => { r[d.id] = d.data(); });
+    cb(r);
+  });
+}
+
+async function fbSaveSauce(key, data) {
+  const { fs, doc, setDoc } = await getDB();
+  await setDoc(doc(fs, "sauces", key), data);
+}
+
+async function fbDeleteSauce(key) {
+  const { fs, doc, deleteDoc } = await getDB();
+  await deleteDoc(doc(fs, "sauces", key));
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────
 window.initApp = async function() {
+  rebuildTG();
+  bHier(); bUsage(); bTech();
+
   await loadUserData();
 
-  // Listen to custom sauces in real time
-  window.FB.listenSauces(data => {
+  listenSauces(data => {
     custom = data;
     rebuildTG();
-    // Refresh current view if needed
     const active = document.querySelector(".screen.active");
     if (active?.id === "s-hierarchy") bHier();
     if (active?.id === "s-usage") bUsage();
@@ -66,10 +110,10 @@ window.initApp = async function() {
     if (active?.id === "s-favs") bFavs();
     if (active?.id === "s-sauce" && cur) openSauce(cur, false);
   });
-
-  rebuildTG();
-  bHier(); bUsage(); bTech();
 };
+
+// Auto-start
+window.initApp();
 
 // ── NAVIGATION ────────────────────────────────────────────────────────
 const TITLES = {
@@ -466,7 +510,7 @@ async function doDeleteSauce(key) {
   if (!confirm("Delete this sauce from the catalog?")) return;
   syncStatus("Deleting…");
   try {
-    await window.FB.deleteSauce(key);
+    await fbDeleteSauce(key);
     syncStatus("Deleted ✓");
     showToast("Sauce deleted");
     goBack();
@@ -650,7 +694,7 @@ async function saveSauce() {
 
   syncStatus("Saving…");
   try {
-    await window.FB.saveSauce(key, sauce);
+    await fbSaveSauce(key, sauce);
     syncStatus("Saved ✓");
     showToast(editKey ? "Changes saved ✓" : "Sauce added ✓");
     cur = key;

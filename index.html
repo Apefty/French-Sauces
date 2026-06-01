@@ -296,43 +296,7 @@ html,body{height:100%;width:100%;overflow:hidden;background:var(--bd);font-famil
 <div class="sync" id="sync-status"></div>
 <div class="toast" id="toast"></div>
 
-<!-- Firebase via compat -->
-<script src="https://unpkg.com/firebase@9.23.0/compat/app.js"></script>
-<script src="https://unpkg.com/firebase@9.23.0/compat/firestore.js"></script>
 <script src="sauces-data.js"></script>
 <script src="app.js"></script>
-<script>
-(function initFirebase() {
-  const cfg = {
-    apiKey: "AIzaSyAcRD5GzqvgtvBTEAm2MQWULrhmVsjyciE",
-    authDomain: "sauce-app-c21f9.firebaseapp.com",
-    projectId: "sauce-app-c21f9",
-    storageBucket: "sauce-app-c21f9.firebasestorage.app",
-    messagingSenderId: "992877586399",
-    appId: "1:992877586399:web:0b25b8796cc7864e6a866a"
-  };
-  firebase.initializeApp(cfg);
-  const db = firebase.firestore();
-
-  window.FB = {
-    async saveSauce(key, data)   { await db.collection("sauces").doc(key).set(data); },
-    async deleteSauce(key)       { await db.collection("sauces").doc(key).delete(); },
-    async saveUserData(key, data){ await db.collection("userdata").doc(key).set(data); },
-    async getUserData(key) {
-      const s = await db.collection("userdata").doc(key).get();
-      return s.exists ? s.data() : null;
-    },
-    listenSauces(cb) {
-      return db.collection("sauces").onSnapshot(snap => {
-        const r = {};
-        snap.forEach(d => { r[d.id] = d.data(); });
-        cb(r);
-      });
-    }
-  };
-
-  window.initApp();
-})();
-</script>
 </body>
 </html>
