@@ -1,0 +1,43 @@
+// data/sauces/cardinal.js
+export default {
+  "Cardinal": {
+    nm: "Cardinal Sauce",
+    pr: ["lobster", "fish", "seafood"],
+    ig: {
+      base: ["lean Veloute (20cl)", "fish stock (10cl)", "cream (10cl)"],
+      aromatics: ["truffle or truffle essence (1 tbsp)"],
+      finish: ["lobster butter (50g)", "cayenne pepper"]
+    },
+    st: [
+      "Reduce Veloute maigre and fish stock by half.",
+      "Add cream, stir. Off heat, stir in lobster butter.",
+      "Season with cayenne and strain. Flavor with truffle."
+    ],
+    rc: "Reduce 20cl Veloute maigre and 10cl fish stock by half. Add 10cl cream. Off the heat, stir in 50g lobster butter. Season with cayenne, strain, and flavor with truffle essence.",
+
+    nm_uk: "Соус Кардинал",
+    pr_uk: ["омар", "риба", "морепродукти"],
+    ig_uk: {
+      base: ["пісний велуте (20 мл)", "рибний бульйон (10 мл)", "вершки (10 мл)"],
+      aromatics: ["трюфель або есенція трюфеля (1 ст.л.)"],
+      finish: ["омарове масло (50г)", "каєнський перець"]
+    },
+    st_uk: [
+      "Редукувати велуте маїгр і рибний бульйон вдвічі.",
+      "Додати вершки, перемішати. Зняти з вогню, вмішати омарове масло.",
+      "Приправити каєнським перцем і процідити. Ароматизувати трюфелем."
+    ],
+    rc_uk: "Редукувати 20 мл велуте маїгр і 10 мл рибного бульйону вдвічі. Додати 10 мл вершків. Зняти з вогню, вмішати 50г омарового масла. Приправити каєнським перцем, процідити і ароматизувати есенцією трюфеля.",
+
+    fr: "Sauce Cardinal",
+    cat: "White Sauces",
+    mo: "Veloute (fish)",
+    tp: "Roux-based",
+    tm: "Hot",
+    bs: "Fish stock",
+    df: "Medium",
+    ti: "30 min",
+    sm: ["Nantua", "Normandy"],
+    photo: "./image/cardinal.jpg"
+  }
+};
