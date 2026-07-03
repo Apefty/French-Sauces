@@ -12,11 +12,13 @@ window.SD = {
         { nm: "Veal Velouté", mo: "Velouté (veal)",
           s: ["Allemande Grasse","Poulette","Villageoise","Tarragon Sauce","Villeroi"] },
         { nm: "Poultry Velouté", mo: "Velouté (poultry)",
-          s: ["Supreme","Aurora","Albufera","Ivory"] },
+          s: ["Supreme","Aurora","Albufera","Ivory","Royal"] },
         { nm: "Fish Velouté", mo: "Velouté (fish)",
-          s: ["Bercy Fish","Normandy","Cardinal","Marinière","Saint-Malo","Veron","Genevoise"] },
+          s: ["Bercy Fish","Normandy","Cardinal","Marinière","Saint-Malo","Veron","Genevoise","Oyster","Waterfish Hot","Breton"] },
         { nm: "Béchamel", mo: "Béchamel (milk)",
-          s: ["Mornay","Soubise","Nantua"] }
+          s: ["Mornay","Soubise","Nantua"] },
+        { nm: "Special White", mo: "Various",
+          s: ["Bontemps","Hungarian","Indian","Chaud-Froid White"] }
       ]
     },
     {
@@ -25,13 +27,15 @@ window.SD = {
       ic: '<span class="iconify" data-icon="openmoji:brown-circle"></span>',
       subs: [
         { nm: "Espagnole / Demi-glace", mo: "Espagnole",
-          s: ["Bordelaise","Madeira","Porto","Chateaubriand","Perigueux","Robert","Piquante","Diable","Sainte-Menehould","Zingara","Financière"] },
+          s: ["Bordelaise","Madeira","Porto","Chateaubriand","Perigueux","Robert","Piquante","Diable","Sainte-Menehould","Zingara","Financière","Hachée","Lyonnaise","Colbert","Solferino","Sarladaise","Moelle","Duxelles","Tortue","Godard"] },
         { nm: "Brown Poultry", mo: "Brown poultry stock",
           s: ["Chasseur","Bigarade","Rouennaise"] },
         { nm: "Game Stock", mo: "Brown game stock",
           s: ["Poivrade","Grand Veneur","Chevreuil"] },
         { nm: "Tomato", mo: "Tomat",
-          s: ["Tomato","Bolognese","Tomato Purée","Tomato Coulis"] }
+          s: ["Tomato","Bolognese","Tomato Purée","Tomato Coulis"] },
+        { nm: "Wine-based", mo: "Red wine",
+          s: ["Bourguignonne Meat","Bourguignonne Fish","Matelote","Mustard Grill"] }
       ]
     },
     {
@@ -53,7 +57,7 @@ window.SD = {
       ic: '<span class="iconify" data-icon="ep:cold-drink"></span>',
       subs: [
         { nm: "Mayonnaise Family", mo: "Mayonnaise",
-          s: ["Mayonnaise","Remoulade","Tartar","Gribiche","Cold Andalusian","Aioli","Rouille"] },
+          s: ["Mayonnaise","Remoulade","Tartar","Gribiche","Cold Andalusian","Aioli","Rouille","Dijonnaise","Cambridge","Waterfish Cold"] },
         { nm: "Vinaigrette Family", mo: "Vinaigrette",
           s: ["Vinaigrette","Ravigote","Lemonette"] }
       ]
@@ -64,7 +68,7 @@ window.SD = {
       ic: '<span class="iconify" data-icon="ep:cold-drink"></span>',
       subs: [
         { nm: "Cold Misc", mo: "Various",
-          s: ["Cumberland","Yorkshire","Cambridge","Cold Russian","Mint Sauce"] }
+          s: ["Cumberland","Yorkshire","Cambridge","Cold Russian","Mint Sauce","Chaud-Froid White","Chaud-Froid Brown"] }
       ]
     },
     {
@@ -79,14 +83,14 @@ window.SD = {
   ],
 
   usage: {
-    "Fish / Seafood": ["Albufera","Cardinal","Hollandaise","Maltese","Marinière","Nantua","Normandy","Remoulade","Bercy Fish","Genevoise","Poulette"],
-    "Meat":           ["Bearnaise","Bordelaise","Bolognese","Chateaubriand","Choron","Cumberland","Diable","Foyot","Madeira","Mornay","Mousseline","Poivrade","Robert","Supreme","Tomato","Zingara"],
-    "Poultry":        ["Albufera","Aurora","Chasseur","Financière","Poulette","Supreme","Villeroi"],
-    "Game":           ["Chevreuil","Cumberland","Grand Veneur","Poivrade","Rouennaise","Zingara"],
-    "Vegetables / Eggs": ["Bechamel","Gribiche","Hollandaise","Mornay","Soubise","Tartar"],
+    "Fish / Seafood": ["Albufera","Cardinal","Hollandaise","Maltese","Marinière","Nantua","Normandy","Remoulade","Bercy Fish","Genevoise","Poulette","Oyster","Veron","Saint-Malo","Waterfish Hot","Waterfish Cold","Bourguignonne Fish","Matelote"],
+    "Meat":           ["Bearnaise","Bordelaise","Bolognese","Chateaubriand","Choron","Cumberland","Diable","Foyot","Madeira","Mornay","Mousseline","Poivrade","Robert","Supreme","Tomato","Zingara","Porto","Hachée","Lyonnaise","Moelle","Piquante","Sainte-Menehould","Solferino","Colbert","Mustard Grill","Bourguignonne Meat"],
+    "Poultry":        ["Albufera","Aurora","Chasseur","Financière","Poulette","Supreme","Villeroi","Royal","Bigarade","Rouennaise","Hungarian","Indian"],
+    "Game":           ["Chevreuil","Cumberland","Grand Veneur","Poivrade","Rouennaise","Zingara","Yorkshire","Chevreuil","Tortue"],
+    "Vegetables / Eggs": ["Bechamel","Gribiche","Hollandaise","Mornay","Soubise","Tartar","Breton","Hungarian"],
     "Dessert":        ["Caramel","Blackcurrant","Chocolate","Cranberry","Apple Sauce"],
-    "Cold Sauces":    ["Cumberland","Gribiche","Mint Sauce","Ravigote","Remoulade","Cold Russian","Tartar","Yorkshire"],
-    "Hot Sauces":     ["Bearnaise","Bordelaise","Chasseur","Diable","Hollandaise","Madeira","Normandy","Supreme"]
+    "Cold Sauces":    ["Cumberland","Gribiche","Mint Sauce","Ravigote","Remoulade","Cold Russian","Tartar","Yorkshire","Cambridge","Dijonnaise","Waterfish Cold"],
+    "Hot Sauces":     ["Bearnaise","Bordelaise","Chasseur","Diable","Hollandaise","Madeira","Normandy","Supreme","Beurre Blanc","Paloise"]
   },
 
   cico: {
