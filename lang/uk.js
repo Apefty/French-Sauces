@@ -1,3 +1,6 @@
+/* <!-- ANDROID VERSION! --> */
+/* build 1.2.4 — 2026-07-18 */
+
 window.LANG_UK = {
   // Header
   app_title: "Класичний репертуар французьких соусів",
@@ -8,20 +11,25 @@ window.LANG_UK = {
   hero_title_2: "Sauces",
   hero_sub: "Повний каталог соусів Ескоф'є, Бокюза, Робюшона",
 
+  // Про застосунок
+  about_version: "Версія 1.2.4",
+  about_desc: "Довідник класичних французьких соусів — ієрархія, інгредієнти й техніка. \n\nAugust Escoffier: A Guide to Modern Cookery (1907),\n\nJoel Robuchon: Larousse Gastronomique (1996),\n\nPaul Bocuse: Bocuse Institut Gastronomique (2015)",
+  about_credits: "Створено як особистий кулінарний довідник. Не для розповсюдження чи комерційного використання.",
+
   // Search
   search_placeholder: "Пошук соусів, інгредієнтів",
   search_no_results: "Нічого не знайдено для",
 
   // Home grid
-  browse_by: "Переглянути за",
+  browse_by: "Перегляд за",
   nav_hierarchy: "Ієрархія",
-  nav_hierarchy_desc: "Материнські соуси та похідні",
+  nav_hierarchy_desc: "Материнські соуси та деривативи",
   nav_dish: "За стравою",
   nav_dish_desc: "Знайти соус для вашого продукту",
   nav_technique: "За технікою",
-  nav_technique_desc: "Емульсійні, на ру тощо",
+  nav_technique_desc: "Емульсійні, томатні, редукційні, на основі Ру тощо",
   nav_all: "Всі соуси",
-  nav_all_desc: "Повний список з редагуванням",
+  nav_all_desc: "Повний список соусів",
 
   // Bottom nav
   bnav_home: "Головна",
@@ -35,8 +43,9 @@ window.LANG_UK = {
   title_usage: "За стравою / продуктом",
   title_technique: "За технікою",
   title_all: "Всі соуси",
+  label_total_count: "Всього соусів",
   title_sauce: "Соус",
-  title_favs: "Збережені соуси",
+  title_favs: "Фаворіти",
   title_form_add: "Додати соус",
   title_form_edit: "Редагувати соус",
 
@@ -47,17 +56,20 @@ window.LANG_UK = {
   sec_ingredients: "Інгредієнти",
   sec_technique: "Техніка",
   sec_recipe: "Повний рецепт",
-  sec_derivatives: "Похідні соуси",
+  sec_derivatives: "Деривативи",
   sec_similar: "Схожі соуси",
   sec_notes: "Мої нотатки",
 
   // Meta labels
   meta_type: "Тип",
-  meta_temp: "Температура",
+  meta_temp: "Темп.",
   meta_diff: "Складність",
   meta_time: "Час",
   meta_base: "Основа",
-  meta_classic: "Класик",
+  meta_classic: "Рецепт",
+  
+  //Description
+  total_count_note: "Соуси з (Еск) — рецепт Огюста Ескоф'є, (Роб) — Жоеля Робюшона, (Бок) — Поля Бокюза.",
 
   // Notes
   notes_empty: "Нотаток ще немає. Натисніть Редагувати.",
@@ -70,6 +82,8 @@ window.LANG_UK = {
   btn_save: "Зберегти",
   btn_saved: "Збережено",
   btn_edit: "Редагувати",
+  btn_add_favs: "Додати до збережених",
+btn_in_favs: "У збережених",
 
   // All sauces list
   no_recipe: "немає рецепту",
@@ -78,7 +92,7 @@ window.LANG_UK = {
   sauce_deleted: "Соус видалено",
 
   // Saved screen
-  favs_empty: "Збережених соусів ще немає.<br>Відкрийте будь-який соус і натисніть ♡.",
+  favs_empty: "Фаворітних соусів ще немає.<br>Відкрийте будь-який соус і натисніть ♡.",
 
   // Form sections
   form_photo: "Фото",
@@ -100,7 +114,7 @@ window.LANG_UK = {
   label_temp: "Температура",
   label_diff: "Складність",
   label_time: "Час",
-  label_base: "Базовий бульйон",
+  label_base: "База",
   label_pairs: "Поєднується з (через кому)",
   label_derivatives: "Похідні соуси",
   label_similar: "Схожі соуси",
@@ -131,6 +145,30 @@ window.LANG_UK = {
   ig_aromatics: "Ароматика",
   ig_acid: "Кислота",
   ig_finish: "Фінішування",
+
+  // Usage categories
+  usage_cats: {
+    "Fish / Seafood": "Риба / Морепродукти",
+    "Meat": "М'ясо",
+    "Poultry": "Птиця",
+    "Game": "Дичина",
+    "Vegetables / Eggs": "Овочі / Яйця",
+    "Dessert": "Десерт",
+    "Cold Sauces": "Холодні соуси",
+    "Hot Sauces": "Гарячі соуси"
+  },
+
+  // Technique types
+  tech_types: {
+    "Emulsified (Hot)": "Емульсійні (гарячі)",
+    "Emulsified (Cold)": "Емульсійні (холодні)",
+    "Roux-based": "На основі ру",
+    "Reduction": "Редукція",
+    "Tomato-based": "На основі томату",
+    "Fruit-based": "Фруктові",
+    "Unstable Emulsion": "Нестабільна емульсія",
+    "Dessert": "Десертні"
+  },
 
   // Categories
   cat: {
@@ -168,5 +206,34 @@ window.LANG_UK = {
     "Easy": "Легко",
     "Medium": "Середньо",
     "Hard": "Складно"
+  },
+
+  // Материнський соус / основа
+  mo: {
+    "Roux": "Ру",
+    "Velouté (veal)": "Велюте (теляче)",
+    "Velouté (poultry)": "Велюте (з птиці)",
+    "Velouté (fish)": "Велюте (рибне)",
+    "Béchamel (milk)": "Бешамель (молочний)",
+    "Béchamel": "Бешамель",
+    "Various": "Різне",
+    "Espagnole": "Еспаньйоль",
+    "Brown poultry stock": "Коричневий бульйон з птиці",
+    "Brown game stock": "Коричневий бульйон з дичини",
+    "Tomat": "Томат",
+    "Red wine": "Червоне вино",
+    "Béarnaise": "Беарнез",
+    "Hollandaise": "Голландез",
+    "Butter": "Масло",
+    "Mayonnaise": "Майонез",
+    "Vinaigrette": "Вінегрет",
+    "Dessert": "Десерт"
+  },
+
+  // Класик (шеф-джерело рецепту)
+  cl: {
+    "Escoffier": "Ескоф'є",
+    "Bocuse": "Бокюз",
+    "Robuchon": "Робюшон"
   }
 };

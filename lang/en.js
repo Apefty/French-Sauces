@@ -1,3 +1,6 @@
+/* <!-- ANDROID VERSION! --> */
+/* build 1.2.4 — 2026-07-18 */
+
 window.LANG_EN = {
   // Header
   app_title: "Classical Repertoire of French Sauces",
@@ -7,6 +10,11 @@ window.LANG_EN = {
   hero_title_em: "Grandes\u00a0",
   hero_title_2: "Sauces",
   hero_sub: "Complete catalog of Escoffier, Bocuse, Robuchon sauces",
+
+  // About
+  about_version: "Version 1.2.4",
+  about_desc: "A reference catalog of classical French sauces — hierarchy, ingredients, and technique. \n\nAugust Escoffier: A Guide to Modern Cookery (1907),\n\nJoel Robuchon: Larousse Gastronomique (1996),\n\nPaul Bocuse: Bocuse Institut Gastronomique (2015)",
+  about_credits: "Built for personal culinary reference only. \nNot for distribution or commercial use.",
 
   // Search
   search_placeholder: "Search sauces, ingredients",
@@ -19,9 +27,9 @@ window.LANG_EN = {
   nav_dish: "By Dish",
   nav_dish_desc: "Find sauce for your product",
   nav_technique: "By Technique",
-  nav_technique_desc: "Emulsified, roux-based",
+  nav_technique_desc: "Emulsified, tomato, reduction, roux-based etc",
   nav_all: "All Sauces",
-  nav_all_desc: "Full list with edit & delete",
+  nav_all_desc: "Full list",
 
   // Bottom nav
   bnav_home: "Home",
@@ -35,6 +43,7 @@ window.LANG_EN = {
   title_usage: "By Dish / Product",
   title_technique: "By Technique",
   title_all: "All Sauces",
+  label_total_count: "Total sauces",
   title_sauce: "Sauce",
   title_favs: "Saved Sauces",
   title_form_add: "Add New Sauce",
@@ -57,8 +66,11 @@ window.LANG_EN = {
   meta_diff: "Difficulty",
   meta_time: "Time",
   meta_base: "Base",
-  meta_classic: "Classic",
+  meta_classic: "Recipe",
 
+//Description
+  total_count_note: "Sauces with (Es) mean August Escoffier recipe, (Ro) for Joel Robuchon and (Bo) for Paul Bocuse.",
+  
   // Notes
   notes_empty: "No notes yet. Tap Edit to add.",
   notes_edit: "✎ Edit notes",
@@ -70,6 +82,8 @@ window.LANG_EN = {
   btn_save: "Save",
   btn_saved: "Saved",
   btn_edit: "Edit",
+  btn_add_favs: "Add to Favorites",
+btn_in_favs: "In Favorites",
 
   // All sauces list
   no_recipe: "no recipe",
@@ -168,5 +182,34 @@ window.LANG_EN = {
     "Easy": "Easy",
     "Medium": "Medium",
     "Hard": "Hard"
+  },
+
+  // Mother sauce / base description
+  mo: {
+    "Roux": "Roux",
+    "Velouté (veal)": "Velouté (veal)",
+    "Velouté (poultry)": "Velouté (poultry)",
+    "Velouté (fish)": "Velouté (fish)",
+    "Béchamel (milk)": "Béchamel (milk)",
+    "Béchamel": "Béchamel",
+    "Various": "Various",
+    "Espagnole": "Espagnole",
+    "Brown poultry stock": "Brown poultry stock",
+    "Brown game stock": "Brown game stock",
+    "Tomat": "Tomat",
+    "Red wine": "Red wine",
+    "Béarnaise": "Béarnaise",
+    "Hollandaise": "Hollandaise",
+    "Butter": "Butter",
+    "Mayonnaise": "Mayonnaise",
+    "Vinaigrette": "Vinaigrette",
+    "Dessert": "Dessert"
+  },
+
+  // Classic reference (chef)
+  cl: {
+    "Escoffier": "Escoffier",
+    "Bocuse": "Bocuse",
+    "Robuchon": "Robuchon"
   }
 };

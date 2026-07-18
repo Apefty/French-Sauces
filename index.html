@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+<!-- ANDROID VERSION! -->
+<!-- build 1.2.4 — 2026-07-18 -->
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Les Grandes Sauces</title>
-    <link rel="stylesheet" href="css/styles_3.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+    <link rel="stylesheet" href="css/styles_a.css">
+    <link rel="stylesheet" href="css/vendor/all.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"> -->
+    <!-- <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script> -->
+    <script src="icons/icons-data.js"></script>
+    <script src="icons/local-iconify.js"></script>
 </head>
 <body>
-
 <div id="app">
 <div class="hdr">
   <button class="hbk" id="bb" style="display:none" onclick="goBack()">
@@ -23,16 +28,21 @@
   <button class="hbt lang-btn" onclick="toggleLang()" title="Language">
     <span id="lang-label">EN</span>
   </button>
-  <button class="hbt" id="bfh" style="display:none" onclick="tFav()">
-    <i class="ti ti-heart" id="fic"></i>
+  <button class="hbt" onclick="showAbout()" title="About">
+    <span style="font-size:18px;font-weight:600">?</span>
   </button>
-  <button class="hbt" id="bad" onclick="oForm(null)" style="font-size:24px;font-weight:300;line-height:1">+</button>
+  <button class="hbt" id="bfh" style="display:none" onclick="tFav()">
+    <span class="iconify" data-icon="mdi:heart"></span>
+  </button>
+  <!-- <button class="hbt" id="bad" onclick="oForm(null)" style="font-size:24px;font-weight:300;line-height:1">+</button> -->
 </div>
 
 <div class="scr active" id="s-home">
   <div class="sb">
     <div class="hero">
-      <div class="h-eye" id="hero-eye"></div>
+      <div class="h-eye" id="hero-eye">
+        Classical French Sauce Catalogue. Escoffier, Robuchon, Bocuse.
+      </div>
       <div class="h-tit">Les <em>Grandes&nbsp;</em>Sauces</div>
       <div class="h-sub" id="hero-sub"></div>
     </div>
@@ -42,25 +52,32 @@
     </div>
     <div id="sr" class="sres"></div>
     <div id="hm">
-      <div class="slbl" id="browse-by"></div>
+      <!-- <div class="slbl" id="browse-by"></div> -->
+      <!-- <div class="total-count" id="total-count"></div> -->
+  <div class="total-count" id="total-count">
+    <span id="total-count-number"></span>
+  </div>
+  <div class="total-count-note">
+    <span id="total-count-note"></span>
+  </div>
       <div class="grid">
         <div class="gc" onclick="nTo('hierarchy')">
-          <div class="gc-ico"><span class="iconify" data-icon="mdi:sitemap" style="font-size:28px"></span></div>
+          <div class="gc-ico"><span class="iconify" data-icon="mdi:sitemap"></span></div>
           <div class="gc-t" id="nav-hierarchy"></div>
           <div class="gc-d" id="nav-hierarchy-desc"></div>
         </div>
         <div class="gc" onclick="nTo('usage')">
-          <div class="gc-ico"><span class="iconify" data-icon="mdi:food-turkey" style="font-size:28px"></span></div>
+          <div class="gc-ico"><span class="iconify" data-icon="mdi:food-turkey"></span></div>
           <div class="gc-t" id="nav-dish"></div>
           <div class="gc-d" id="nav-dish-desc"></div>
         </div>
         <div class="gc" onclick="nTo('technique')">
-          <div class="gc-ico"><span class="iconify" data-icon="game-icons:whisk" style="font-size:28px"></span></div>
+          <div class="gc-ico"><span class="iconify" data-icon="game-icons:whisk"></span></div>
           <div class="gc-t" id="nav-technique"></div>
           <div class="gc-d" id="nav-technique-desc"></div>
         </div>
         <div class="gc" onclick="nTo('all')">
-          <div class="gc-ico"><span class="iconify" data-icon="qlementine-icons:view-page-all-16" style="font-size:22px"></span></div>
+          <div class="gc-ico"><span class="iconify" data-icon="qlementine-icons:view-page-all-16"></span></div>
           <div class="gc-t" id="nav-all"></div>
           <div class="gc-d" id="nav-all-desc"></div>
         </div>
@@ -100,561 +117,26 @@
   </button>
 </div>
 </div>
-<div class="toast" id="toast"></div>
+
+<div id="about-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;align-items:center;justify-content:center;padding:20px" onclick="if(event.target===this)hideAbout()">
+  <div style="background:var(--bg,#fffdf7);max-width:420px;width:100%;border-radius:14px;padding:24px;max-height:80vh;overflow-y:auto;position:relative">
+    <button onclick="hideAbout()" style="position:absolute;top:12px;right:12px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--br,#8a7860)">✕</button>
+    <div id="about-body"></div>
+  </div>
+</div>
+
+<div id="about-overlay" class="about-overlay" onclick="if(event.target===this)hideAbout()">
+  <div class="about-box">
+    <button class="about-close" onclick="hideAbout()">✕</button>
+    <div id="about-body"></div>
+  </div>
+</div>
 
 <script src="data/data.js"></script>
 <script src="data/app.js"></script>
 <script src="lang/en.js"></script>
 <script src="lang/uk.js"></script>
-<script>
 
-// ── LANGUAGE ──────────────────────────────────────────────────────────
-const LANGS = { en: null, uk: null };
-let currentLang = localStorage.getItem('lang') || 'en';
-
-// Store both lang files as they load
-(function() {
-  // en.js and uk.js both set window.L — we capture each
-  // We use a different approach: load dynamically
-})();
-
-// Lang files set window.L — we save each after load
-// Since both are loaded via <script>, we need them keyed separately
-// Solution: en.js and uk.js will set window.LANG_EN and window.LANG_UK
-
-// Get current translation
-function t(key) {
-  const lang = currentLang === 'uk' ? window.LANG_UK : window.LANG_EN;
-  return lang ? (lang[key] || key) : key;
-}
-
-function toggleLang() {
-  currentLang = currentLang === 'en' ? 'uk' : 'en';
-  localStorage.setItem('lang', currentLang);
-  applyLang();
-  // Rebuild current screen
-  const active = document.querySelector('.scr.active');
-  if (active) {
-    const id = active.id.replace('s-', '');
-    if (id === 'home') applyLang();
-    if (id === 'hierarchy') bH();
-    if (id === 'usage') bU();
-    if (id === 'technique') bT();
-    if (id === 'all') bAll();
-    if (id === 'favs') bF();
-    if (id === 'sauce' && cur) oS(cur, false);
-  }
-}
-
-function applyLang() {
-  const isUk = currentLang === 'uk';
-  document.getElementById('lang-label').textContent = isUk ? 'UA' : 'EN';
-  document.getElementById('ht').textContent = t('title_home');
-
-  // Hero
-  const eyeEl = document.getElementById('hero-eye');
-  const subEl = document.getElementById('hero-sub');
-  if (eyeEl) eyeEl.textContent = '';
-  if (subEl) subEl.textContent = t('hero_sub');
-
-  // Home grid
-  const browseEl = document.getElementById('browse-by');
-  if (browseEl) browseEl.textContent = t('browse_by');
-  setText('nav-hierarchy', t('nav_hierarchy'));
-  setText('nav-hierarchy-desc', t('nav_hierarchy_desc'));
-  setText('nav-dish', t('nav_dish'));
-  setText('nav-dish-desc', t('nav_dish_desc'));
-  setText('nav-technique', t('nav_technique'));
-  setText('nav-technique-desc', t('nav_technique_desc'));
-  setText('nav-all', t('nav_all'));
-  setText('nav-all-desc', t('nav_all_desc'));
-
-  // Search placeholder
-  const sq = document.getElementById('sq');
-  if (sq) sq.placeholder = t('search_placeholder');
-
-  // Bottom nav
-  setText('bnav-home', t('bnav_home'));
-  setText('bnav-structure', t('bnav_structure'));
-  setText('bnav-all', t('bnav_all'));
-  setText('bnav-saved', t('bnav_saved'));
-}
-
-function setText(id, text) {
-  const el = document.getElementById(id);
-  if (el) el.textContent = text;
-}
-
-// ── STATE ─────────────────────────────────────────────────────────────
-let stk=['home'],cur=null,noteEditing=false,editKey=null,photoData={};
-let favs=JSON.parse(localStorage.getItem('fav')||'[]');
-let notes=JSON.parse(localStorage.getItem('nts')||'{}');
-let custom=JSON.parse(localStorage.getItem('cst')||'{}');
-let fontScale = parseFloat(localStorage.getItem('fs') || '1');
-document.documentElement.style.setProperty('--fs-scale', fontScale);
-
-function changeFontSize(delta) {
-  fontScale = Math.min(1.5, Math.max(0.7, +(fontScale + delta * 0.1).toFixed(1)));
-  localStorage.setItem('fs', String(fontScale));
-  document.documentElement.style.setProperty('--fs-scale', fontScale);
-}
-
-let allFilter='All';
-const TG={};
-
-function aR(){return Object.assign({},SD.r,custom);}
-
-function rTG(){
-  ['Emulsified (Hot)','Emulsified (Cold)','Roux-based','Reduction','Tomato-based','Fruit-based','Unstable Emulsion','Dessert'].forEach(k=>TG[k]=[]);
-  Object.entries(aR()).forEach(([k,s])=>{
-    if(s.tp==='Emulsified') TG[s.tm==='Hot'?'Emulsified (Hot)':'Emulsified (Cold)'].push(k);
-    else if(s.tp==='Cold Emulsified') TG['Emulsified (Cold)'].push(k);
-    else if(TG[s.tp]) TG[s.tp].push(k);
-  });
-}
-rTG();
-
-function allSaucesList(){
-  const R=aR();
-  const nameMap={};
-  SD.cats.forEach(cat=>cat.subs.forEach(sub=>sub.s.forEach(nm=>{
-    const k=fK(nm);
-    nameMap[nm]={key:k||null,cat:cat.nm,hasRecipe:!!k};
-  })));
-  Object.entries(R).forEach(([k,s])=>{
-    if(!nameMap[s.nm]) nameMap[s.nm]={key:k,cat:s.cat,hasRecipe:true};
-  });
-  return Object.entries(nameMap).map(([nm,v])=>({nm,key:v.key,cat:v.cat,hasRecipe:v.hasRecipe}))
-    .sort((a,b)=>a.nm.localeCompare(b.nm));
-}
-
-function TTLS(id) {
-  const map = {
-    home:'title_home', hierarchy:'title_hierarchy', usage:'title_usage',
-    technique:'title_technique', all:'title_all', sauce:'title_sauce',
-    favs:'title_favs', form:'title_form_add'
-  };
-  return t(map[id] || id);
-}
-
-function showS(id,title,push=true){
-  if(push) stk.push(id);
-  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('active'));
-  document.getElementById('s-'+id).classList.add('active');
-  const R=aR();
-  document.getElementById('ht').textContent=title||(id==='sauce'&&cur?(R[cur]?.nm||t('title_sauce')):TTLS(id));
-  document.getElementById('bb').style.display=stk.length>1?'':'none';
-  document.getElementById('bfh').style.display=id==='sauce'?'':'none';
-  document.getElementById('bad').style.display=id==='form'?'none':'';
-  ['home','hierarchy','all','favs'].forEach(n=>document.getElementById('nb-'+n)?.classList.toggle('on',n===id));
-  uFI();
-}
-
-function nTo(id){
-  stk=[id];
-  if(id==='hierarchy') bH();
-  if(id==='usage') bU();
-  if(id==='technique') bT();
-  if(id==='all') bAll();
-  if(id==='favs') bF();
-  showS(id,null,false);
-}
-
-function goBack(){
-  if(stk.length<=1) return;
-  stk.pop();
-  const id=stk[stk.length-1];
-  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('active'));
-  document.getElementById('s-'+id).classList.add('active');
-  const R=aR();
-  document.getElementById('ht').textContent=id==='sauce'&&cur?(R[cur]?.nm||t('title_sauce')):TTLS(id);
-  document.getElementById('bb').style.display=stk.length>1?'':'none';
-  document.getElementById('bfh').style.display=id==='sauce'?'':'none';
-  document.getElementById('bad').style.display=id==='form'?'none':'';
-  ['home','hierarchy','all','favs'].forEach(n=>document.getElementById('nb-'+n)?.classList.toggle('on',n===id));
-  uFI();
-}
-
-function oSrch(v){
-  const q=v.trim().toLowerCase();
-  const res=document.getElementById('sr'),main=document.getElementById('hm');
-  if(!q){res.style.display='none';res.innerHTML='';main.style.display='';return;}
-  res.style.display='block';main.style.display='none';
-  const R=aR();
-  const ms=Object.entries(R).filter(([k,s])=>[s.nm,s.fr,s.cat,s.mo,...(s.pr||[]),...Object.values(s.ig||{}).flat(),s.rc||''].join(' ').toLowerCase().includes(q));
-  if(!ms.length){res.innerHTML=`<div style="text-align:center;padding:24px;color:var(--mt);font-size:12px">${t('search_no_results')} <b>${X(v)}</b></div>`;return;}
-  res.innerHTML=ms.map(([k,s])=>`
-    <div class="sri" onclick="oS('${k}')">
-      <div class="sri-ico">${SD.cico[s.cat]||'🍶'}</div>
-      <div><div class="sri-n">${X(s.nm)}</div><div class="sri-c">${X(s.cat)} · ${X(s.tp)}</div></div>
-      <span style="margin-left:auto;color:var(--br)">&#5125;</span></div>`).join('');
-}
-
-function fK(nm){
-  const R=aR();const l=nm.toLowerCase();
-  return Object.keys(R).find(k=>k.toLowerCase()===l||R[k].nm.toLowerCase()===l||R[k].nm.toLowerCase().includes(l)||l.includes(R[k].nm.toLowerCase().split(' ')[0]))||null;
-}
-
-// ── HIERARCHY ─────────────────────────────────────────────────────────
-function bH(){
-  const R=aR();
-  const byCat={};
-  Object.entries(R).forEach(([k,s])=>{
-    if(!byCat[s.cat]) byCat[s.cat]=[];
-    byCat[s.cat].push({k,s});
-  });
-  document.getElementById('hb').innerHTML=SD.cats.map((cat,ci)=>{
-    return `<div class="cg">
-      <div class="ch" onclick="tC(${ci})">
-        <div class="cico">${cat.ic}</div>
-        <div class="cnm"><div class="cnm-m">${cat.nm}</div><div class="cnm-f">${cat.fr}</div></div>
-        <span class="chev" id="ca${ci}">&#5125;</span>
-      </div>
-      <div class="csl" id="cl${ci}">
-        ${cat.subs.map((sub,si)=>`
-          <div class="csi">
-            <div class="csh" onclick="tS(${ci},${si})">
-              <div><div class="csnm">${sub.nm}</div><div class="csmo">${sub.mo}</div></div>
-              <span class="csch" id="sa${ci}_${si}">&#5125;</span>
-            </div>
-            <div class="ssl" id="sl${ci}_${si}">
-              ${sub.s.map(nm=>{
-                const rk=fK(nm);
-                return`<div class="sli"${rk?` onclick="oS('${rk}')"`:''}>`+
-                  `<div class="sld"></div><div class="sln">${nm}</div>`+
-                  (rk?`<span class="slt">Recipe</span><span style="color:var(--br)">&#5125;</span>`:'')+`</div>`;
-              }).join('')}
-            </div>
-          </div>`).join('')}
-      </div>
-    </div>`;
-  }).join('');
-}
-function tCC(){tog('clC','caC');}
-function tC(ci){tog('cl'+ci,'ca'+ci);}
-function tS(ci,si){tog('sl'+ci+'_'+si,'sa'+ci+'_'+si);}
-function tog(lid,aid){document.getElementById(lid).classList.toggle('op');document.getElementById(aid).classList.toggle('op');}
-
-// ── USAGE ─────────────────────────────────────────────────────────────
-function bU(){
-  document.getElementById('ub').innerHTML='<div class="lb">'+
-    Object.entries(SD.usage).map(([cat,sauces])=>`
-      <div class="li" onclick='sL(${JSON.stringify(cat)},${JSON.stringify(sauces)})'>
-        <div class="li-ico">${SD.uico[cat]||'🍶'}</div>
-        <div class="li-n">${cat}</div>
-        <span class="li-ct">${sauces.length}</span><span class="li-ar">&#5125;</span>
-      </div>`).join('')+'</div>';
-}
-
-// ── TECHNIQUE ─────────────────────────────────────────────────────────
-function bT(){
-  rTG();
-  document.getElementById('tb').innerHTML='<div class="lb">'+
-    Object.entries(TG).filter(([,s])=>s.length).map(([nm,sauces])=>`
-      <div class="li" onclick='sLK(${JSON.stringify(nm)},${JSON.stringify(sauces)})'>
-        <div class="li-ico">${SD.tico[nm]||'🍶'}</div>
-        <div class="li-n">${nm}</div>
-        <span class="li-ct">${sauces.length}</span><span class="li-ar">&#5125;</span>
-      </div>`).join('')+'</div>';
-}
-
-function sL(title,items){
-  document.getElementById('slb').innerHTML='<div class="lb">'+
-    items.map(nm=>{const k=fK(nm);return`
-      <div class="li"${k?` onclick="oS('${k}')"`:`style="opacity:.55"`}>
-        <div class="li-n">${nm}</div>
-        ${k?`<span class="li-ar">&#5125;</span>`:`<span style="font-size:10px;color:var(--mt)">${t('no_recipe')}</span>`}
-      </div>`;}).join('')+'</div>';
-  showS('sublist',title);
-}
-
-function sLK(title,keys){
-  const R=aR();
-  document.getElementById('slb').innerHTML='<div class="lb">'+
-    keys.map(k=>{const s=R[k];if(!s)return'';return`
-      <div class="li" onclick="oS('${k}')">
-        <div style="flex:1"><div class="li-n">${X(s.nm)}</div><div class="li-s">${X(s.cat)}</div></div>
-        <span class="li-ar">&#5125;</span>
-      </div>`;}).join('')+'</div>';
-  showS('sublist',title);
-}
-
-// ── ALL SAUCES ─────────────────────────────────────────────────────────
-function bAll(filter){
-  if(filter!==undefined) allFilter=filter;
-  const list=allSaucesList();
-  const cats=[t('filter_all'),...SD.cats.map(c=>c.nm)];
-
-  document.getElementById('all-filter').innerHTML=cats.map(c=>
-    `<button class="fc${allFilter===c||(!allFilter&&c===t('filter_all'))?' on':''}" onclick="bAll('${c}')">${c}</button>`
-  ).join('');
-
-  const isAll = allFilter === t('filter_all') || allFilter === 'All';
-  const filtered=isAll?list:list.filter(item=>{
-    if(item.key){const s=aR()[item.key];return s&&s.cat===allFilter;}
-    return item.cat===allFilter;
-  });
-
-  document.getElementById('alb').innerHTML='<div class="lb">'+
-    filtered.map(item=>{
-      const isCustom=item.key&&!!custom[item.key];
-      const canDelete=isCustom;
-      return`<div class="all-item">
-        <div class="ai-main"${item.key?` onclick="oS('${item.key}')"`:''}
-          style="${!item.key?'cursor:default':''}">
-          <div class="ai-nm">${X(item.nm)}</div>
-          <div class="ai-cat">${X(item.cat)}${!item.hasRecipe?` · <span style="color:#bbb0a0">${t('no_recipe')}</span>`:''}</div>
-        </div>
-        <div class="ai-btns">
-          ${item.key?`<button class="ai-view" onclick="oS('${item.key}')">${t('btn_view')}</button>`:''}
-          <button class="ai-edit" onclick="oForm('${item.key||''}','${item.key?'':'new'}','${X(item.nm)}','${X(item.cat)}')">${t('btn_edit')}</button>
-          ${canDelete?`<button class="ai-del" onclick="doDel('${item.key}')"><span class="iconify" data-icon="mdi:trash" style="font-size:22px"></span></button>`:''}
-        </div>
-      </div>`;
-    }).join('')+'</div>';
-}
-
-// ── SAVED ──────────────────────────────────────────────────────────────
-function bF(){
-  const b=document.getElementById('fb2'),R=aR();
-  if(!favs.length){
-    b.innerHTML=`<div class="fe"><i class="ti ti-heart"></i><p>${t('favs_empty')}</p></div>`;
-    return;
-  }
-  b.innerHTML='<div class="lb">'+favs.map(k=>{const s=R[k];if(!s)return'';return`
-    <div class="li" onclick="oS('${k}')">
-      <div style="flex:1">
-        <div class="li-n">${X(s.nm)}</div>
-        <div class="li-s">${X(s.cat)}${notes[k]?' · 📝':''}</div>
-      </div>
-      <span class="li-ar">&#5125;</span>
-    </div>`;}).join('')+'</div>';
-}
-
-// ── SAUCE CARD ─────────────────────────────────────────────────────────
-function oS(key,push=true){
-  const R=aR();const s=R[key];if(!s)return;cur=key;
-  const fav=favs.includes(key),isCust=!!custom[key],nt=notes[key]||'',photo=s.photo||`./image/${key}.jpg`;
-  let bc='';
-  if(s.mo&&s.mo!=='-'&&s.mo!==s.nm){const mk=fK(s.mo);
-    bc+=mk&&mk!==key?`<span class="bci" onclick="oS('${mk}')">${X(s.mo)}</span><span class="bcs">&#5125;</span>`:`<span class="bci plain">${X(s.mo)}</span><span class="bcs">&#5125;</span>`;}
-  bc+=`<span class="bci cur">${X(s.nm)}</span>`;
-
-  const ingr=s.ig?'<div class="ig">'+Object.entries(s.ig).filter(([,v])=>v?.length).map(([g,items])=>{
-    const gLabel = t('ig_'+g) || g;
-    return `<div class="igg"><div class="igt">${gLabel}</div>${items.map(i=>`<div class="igi">${X(i)}</div>`).join('')}</div>`;
-  }).join('')+'</div>':'';
-
-  const steps=s.st?.length?s.st.map((t2,i)=>`<div class="stp"><div class="stn">${i+1}</div><div class="stx">${X(t2)}</div></div>`).join(''):'';
-  const deriv=s.dv?.length?`<div class="dt"><div class="dtm">${X(s.nm)}</div><div class="dtl"></div><div class="dtc">${s.dv.map(d=>{const dk=fK(d);return`<div class="dtch${dk===key?' cur':''}\"${dk?` onclick="oS('${dk}')"`:''}>${X(d)}</div>`;}).join('')}</div></div>`:'';
-  const sim=s.sm?.length?'<div class="rl">'+s.sm.filter(n=>{const sk=fK(n);return sk&&sk!==key;}).map(n=>{const sk=fK(n);return`<div class="rli" onclick="oS('${sk}')"><span style="font-size:12px">${X(R[sk]?.nm||n)}</span><span style="color:var(--br)">&#5125;</span></div>`;}).join('')+'</div>':'';
-
-  document.getElementById('sab').innerHTML=
-    `<div class="sauce-hero">
-      <img class="shi" src="${photo}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-      <div class="shp" style="display:none"></div>
-      <div class="shb">
-        <div class="sbadge">${SD.cico[s.cat]||'🍶'} ${X(s.cat)}</div>
-        <div class="stit">${X(s.nm)}</div>
-        ${s.fr&&s.fr!==s.nm?`<div class="sfr">${X(s.fr)}</div>`:''}
-      </div></div>
-    <div class="ssec"><div class="sstl">${t('sec_classification')}</div><div class="bc">${bc}</div></div>
-    <div class="ssec"><div class="sstl">${t('sec_properties')}</div><div class="mg">
-      ${mc(t('meta_type'),s.tp)}${mc(t('meta_temp'),s.tm)}${mc(t('meta_diff'),s.df)}
-      ${mc(t('meta_time'),s.ti)}${mc(t('meta_base'),s.bs)}${mc(t('meta_classic'),s.cl||'Escoffier')}
-    </div></div>
-    ${s.pr?.length?`<div class="ssec"><div class="sstl">${t('sec_pairs')}</div><div class="tgs">${s.pr.map(p=>`<span class="tg">${X(p)}</span>`).join('')}</div></div>`:''}
-    ${ingr?`<div class="ssec"><div class="sstl">${t('sec_ingredients')}</div>${ingr}</div>`:''}
-    ${steps?`<div class="ssec"><div class="sstl">${t('sec_technique')}</div>${steps}</div>`:''}
-    ${s.rc?`<div class="ssec"><div class="sstl">${t('sec_recipe')}</div><div class="rb"><div class="rt">${X(s.rc)}</div></div></div>`:''}
-    ${deriv?`<div class="ssec"><div class="sstl">${t('sec_derivatives')}</div>${deriv}</div>`:''}
-    ${sim?`<div class="ssec"><div class="sstl">${t('sec_similar')}</div>${sim}</div>`:''}
-    <div class="ssec"><div class="sstl">${t('sec_notes')}</div>
-      <div class="nview${nt?'':' em'}" id="nv">${nt?X(nt):t('notes_empty')}</div>
-      <textarea class="nta" id="nta" placeholder="${t('ph_notes')}">${X(nt)}</textarea>
-      <div class="nbtns">
-        <button class="ab ab-ne" id="bne" onclick="tNote()">${t('notes_edit')}</button>
-        <button class="ab ab-ns" id="bns" onclick="svNote('${key}')">${t('notes_save')}</button>
-      </div></div>
-    <div class="ssec"><div class="ar">
-      <button class="ab ab-sv${fav?' on':''}" id="bfc" onclick="tFav()">${fav?t('btn_saved'):t('btn_save')}</button>
-      <button class="ab ab-ed" onclick="oForm('${key}')">${t('btn_edit')}</button>
-      ${isCust?`<button class="ab ab-dl" onclick="doDel('${key}')"><span class="iconify" data-icon="ion:trash-outline"></span></button>`:''}
-    </div></div>
-    <div style="height:36px"></div>`;
-
-  document.getElementById('sab').scrollTop=0;
-  if(push) showS('sauce',s.nm); else document.getElementById('ht').textContent=' ';
-  uFI();
-}
-
-function mc(l,v){return`<div class="mi"><div class="ml">${l}</div><div class="mv">${X(v||'-')}</div></div>`;}
-
-function tNote(){
-  noteEditing=!noteEditing;
-  const nv=document.getElementById('nv'),ta=document.getElementById('nta');
-  const bne=document.getElementById('bne'),bns=document.getElementById('bns');
-  if(noteEditing){
-    nv.style.display='none';ta.style.display='block';ta.focus();
-    bne.textContent=t('notes_cancel');bns.style.display='flex';
-  } else {
-    nv.style.display='';ta.style.display='none';
-    bne.textContent=t('notes_edit');bns.style.display='none';
-  }
-}
-
-function svNote(key){
-  const val=document.getElementById('nta').value.trim();
-  notes[key]=val;localStorage.setItem('nts',JSON.stringify(notes));
-  const nv=document.getElementById('nv');
-  nv.textContent=val||t('notes_empty');
-  nv.className='nview'+(val?'':' em');
-  tNote();toast(t('notes_saved'));
-}
-
-function uFI(){
-  const btn=document.getElementById('bfh');if(!btn||!cur)return;
-  const f=favs.includes(cur);
-  document.getElementById('fic').className=f?'ti ti-heart-filled':'ti ti-heart';
-  btn.style.color=f?'#E0A84A':'';
-}
-
-function tFav(){
-  if(!cur)return;
-  const i=favs.indexOf(cur);if(i===-1)favs.push(cur);else favs.splice(i,1);
-  localStorage.setItem('fav',JSON.stringify(favs));uFI();
-  const bfc=document.getElementById('bfc');
-  if(bfc){const f=favs.includes(cur);bfc.className='ab ab-sv'+(f?' on':'');bfc.textContent=f?t('btn_saved'):t('btn_save');}
-}
-
-function doDel(key){
-  if(!confirm(t('btn_delete_confirm')))return;
-  delete custom[key];localStorage.setItem('cst',JSON.stringify(custom));rTG();
-  toast(t('sauce_deleted'));goBack();
-}
-
-// ── FORM ───────────────────────────────────────────────────────────────
-const CATS=['White Sauces','Brown Sauces','Hot Emulsified','Cold Emulsified','Cold Sauces','Dessert Sauces'];
-const TYPES=['Emulsified','Cold Emulsified','Roux-based','Reduction','Tomato-based','Fruit-based','Unstable Emulsion','Dessert'];
-const TEMPS=['Hot','Cold','Hot/Cold'];
-const DIFFS=['Easy','Medium','Hard'];
-
-function oForm(key,mode,prefillNm,prefillCat){
-  editKey=key||null;photoData={};
-  const R=aR();
-  const s=key?R[key]:null;
-  const sel=(opts,val)=>opts.map(o=>`<option${o===val?' selected':''}>${o}</option>`).join('');
-  const dList=(id,items)=>`<div class="dl" id="${id}">${(items.length?items:['']).map((v,i)=>dRow(id,v,i)).join('')}</div><button class="dra" onclick="addR('${id}')">${t('btn_add_item')}</button>`;
-  const ep=s?.photo?`<img class="fpp" id="fpp" src="${s.photo}" alt="">`:'';
-  const initNm=s?.nm||prefillNm||'';
-  const initCat=s?.cat||prefillCat||'White Sauces';
-
-  document.getElementById('fb3').innerHTML=
-    `<div class="fs"><div class="fst">${t('form_photo')}</div>
-      <div class="fpa" id="fpa">${ep||`<div class="fpai"><span class="iconify" data-icon="tabler:photo-plus"></span></div><span class="fpas">${t('form_photo_hint')}</span>`}
-      <input type="file" accept="image/*" onchange="hPhoto(this)"></div></div>
-    <div class="fs"><div class="fst">${t('form_basic')}</div>
-      ${fr2(t('label_name_en'),'<input id="f-nm" value="'+X(initNm)+'" placeholder="'+t('ph_name_en')+'">')}
-      ${fr2(t('label_name_fr'),'<input id="f-fr" value="'+X(s?.fr||'')+'" placeholder="'+t('ph_name_fr')+'">')}
-      ${fr2(t('label_mother'),'<input id="f-mo" value="'+X(s?.mo||'')+'" placeholder="'+t('ph_mother')+'">')}
-      <div class="f2">
-        ${fr2(t('label_category'),'<select id="f-cat">'+sel(CATS,initCat)+'</select>')}
-        ${fr2(t('label_cuisine'),'<input id="f-cl" value="'+X(s?.cl||'French')+'">')}
-      </div></div>
-    <div class="fs"><div class="fst">${t('form_props')}</div>
-      <div class="f2">
-        ${fr2(t('label_type'),'<select id="f-tp">'+sel(TYPES,s?.tp)+'</select>')}
-        ${fr2(t('label_temp'),'<select id="f-tm">'+sel(TEMPS,s?.tm)+'</select>')}
-      </div><div class="f2">
-        ${fr2(t('label_diff'),'<select id="f-df">'+sel(DIFFS,s?.df)+'</select>')}
-        ${fr2(t('label_time'),'<input id="f-ti" value="'+X(s?.ti||'')+'" placeholder="'+t('ph_time')+'">')}
-      </div>
-      ${fr2(t('label_base'),'<input id="f-bs" value="'+X(s?.bs||'')+'" placeholder="'+t('ph_base')+'">')}
-    </div>
-    <div class="fs"><div class="fst">${t('form_ingredients')}</div>
-      ${['base','aromatics','acid','finish'].map(g=>fr2(t('ig_'+g),dList('ig-'+g,s?.ig?.[g]||[]))).join('')}
-    </div>
-    <div class="fs"><div class="fst">${t('form_technique')}</div>${dList('f-st',s?.st||[])}</div>
-    <div class="fs"><div class="fst">${t('form_recipe')}</div>
-      ${fr2('','<textarea id="f-rc" rows="4" placeholder="'+t('label_recipe')+'">'+X(s?.rc||'')+'</textarea>')}
-    </div>
-    <div class="fs"><div class="fst">${t('form_relations')}</div>
-      ${fr2(t('label_pairs'),'<input id="f-pr" value="'+X((s?.pr||[]).join(', '))+'">')}
-      ${fr2(t('label_derivatives'),'<input id="f-dv" value="'+X((s?.dv||[]).join(', '))+'">')}
-      ${fr2(t('label_similar'),'<input id="f-sm" value="'+X((s?.sm||[]).join(', '))+'">')}
-    </div>
-    <div class="fa">
-      <button class="fcn" onclick="goBack()">${t('btn_cancel')}</button>
-      <button class="fsv" onclick="svSauce()">${key?t('btn_save_changes'):t('btn_add_catalog')}</button>
-    </div>`;
-
-  showS('form', key ? t('title_form_edit') : t('title_form_add'));
-}
-
-function fr2(label,input){return`<div class="fr2">${label?`<label>${label}</label>`:''}`+input+`</div>`;}
-function dRow(lid,val,idx){return`<div class="dr" id="dr-${lid}-${idx}"><input value="${X(val)}" placeholder=""><button class="drd" onclick="delR('${lid}',${idx})">✖</button></div>`;}
-function addR(lid){const c=document.getElementById(lid);const idx=c.children.length;const d=document.createElement('div');d.innerHTML=dRow(lid,'',idx);c.appendChild(d.firstChild);}
-function delR(lid,idx){document.getElementById(`dr-${lid}-${idx}`)?.remove();}
-function gR(lid){const c=document.getElementById(lid);if(!c)return[];return Array.from(c.querySelectorAll('input')).map(i=>i.value.trim()).filter(Boolean);}
-
-function hPhoto(inp){
-  const file=inp.files[0];if(!file)return;
-  const img=new Image();
-  img.onload=()=>{
-    const MAX=800;let w=img.width,h=img.height;
-    if(w>MAX||h>MAX){if(w>h){h=Math.round(h*MAX/w);w=MAX;}else{w=Math.round(w*MAX/h);h=MAX;}}
-    const c=document.createElement('canvas');c.width=w;c.height=h;
-    c.getContext('2d').drawImage(img,0,0,w,h);
-    photoData.data=c.toDataURL('image/jpeg',0.75);
-    const area=document.getElementById('fpa'),prev=document.getElementById('fpp');
-    if(!prev){area.innerHTML=`<img class="fpp" id="fpp" src="${photoData.data}" alt=""><input type="file" accept="image/*" onchange="hPhoto(this)">`;}
-    else{prev.src=photoData.data;}
-  };
-  img.src=URL.createObjectURL(file);
-}
-
-function svSauce(){
-  const nm=document.getElementById('f-nm').value.trim();
-  if(!nm){toast(t('btn_name_required'));return;}
-  const R=aR();
-  const key=editKey||(nm.toLowerCase().replace(/[^a-z0-9]+/g,'_')+'_'+Date.now());
-  const existing=editKey?R[editKey]:null;
-  const sauce={
-    nm,fr:document.getElementById('f-fr').value.trim()||nm,
-    mo:document.getElementById('f-mo').value.trim()||'-',
-    cat:document.getElementById('f-cat').value,
-    cl:document.getElementById('f-cl').value.trim()||'French',
-    tp:document.getElementById('f-tp').value,tm:document.getElementById('f-tm').value,
-    df:document.getElementById('f-df').value,ti:document.getElementById('f-ti').value.trim(),
-    bs:document.getElementById('f-bs').value.trim()||'-',
-    ig:{base:gR('ig-base'),aromatics:gR('ig-aromatics'),acid:gR('ig-acid'),finish:gR('ig-finish')},
-    st:gR('f-st'),rc:document.getElementById('f-rc').value.trim(),
-    pr:document.getElementById('f-pr').value.split(',').map(s=>s.trim()).filter(Boolean),
-    dv:document.getElementById('f-dv').value.split(',').map(s=>s.trim()).filter(Boolean),
-    sm:document.getElementById('f-sm').value.split(',').map(s=>s.trim()).filter(Boolean),
-    photo:photoData.data||(existing?.photo)||''
-  };
-  custom[key]=sauce;localStorage.setItem('cst',JSON.stringify(custom));rTG();
-  toast(editKey?t('btn_changes_saved'):t('btn_sauce_added'));cur=key;oS(key);
-}
-
-function X(s){return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function toast(msg){const t2=document.getElementById('toast');t2.textContent=msg;t2.classList.add('show');setTimeout(()=>t2.classList.remove('show'),2200);}
-
-// ── INIT ───────────────────────────────────────────────────────────────
-// lang files set window.L — rename them to LANG_EN / LANG_UK
-// We need to patch lang files — but since they're already loaded as window.L,
-// we handle this by loading them in order and saving references
-// Actually: both files set window.L, last one wins
-// Fix: we'll read currentLang and only load the right one dynamically
-
-function initApp() {
-  applyLang();
-  bH(); bU(); bT(); bAll();
-}
-
-initApp();
-</script>
 
 </body>
 </html>
