@@ -1,0 +1,4 @@
+ToDo
+
+1. Search field - add a cross to clean placeholder
+2. 

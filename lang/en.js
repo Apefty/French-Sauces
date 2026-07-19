@@ -27,6 +27,7 @@ window.LANG_EN = {
   search_placeholder: "Search sauces, ingredients",
   glossary_search_placeholder: "Search terms",
   search_no_results: "No results for",
+  search_also_in: "Also found in:",
 
   // Home grid
   browse_by: "Browse by",

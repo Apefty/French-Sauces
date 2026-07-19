@@ -41,7 +41,7 @@ export default {
     ti: "25 min",
     ti_uk: "25 хв",
     bs_uk: "Демі-гляс",
-    sm: ["Diable Sauce (Es)","Devilled Sauce (Es)","Robert (Ro)","Robert Sauce (Es)","Piquante (Ro)","Piquante Sauce (Es)"],
+    sm: ["Devilled Sauce (Es)","Robert (Ro)","Robert Sauce (Es)","Piquante (Ro)","Piquante Sauce (Es)"],
       cl: "Robuchon",  // Classic reference
     photo: "./image/diable.jpg"
   }

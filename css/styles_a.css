@@ -449,7 +449,14 @@ body {
     color:var(--tx);
     margin-top:1px;
 }
-
+.sres-sep {
+    font-size: calc(14px * var(--fs-scale));
+    color:var(--tx2);
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    font-weight:600;
+    padding:14px 4px 6px;
+}
 
 /* HIERARCHY */
 .cg {

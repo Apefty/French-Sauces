@@ -27,6 +27,7 @@ window.LANG_UK = {
   search_placeholder: "Пошук соусів, інгредієнтів",
   glossary_search_placeholder: "Пошук термінів",
   search_no_results: "Нічого не знайдено для",
+  search_also_in: "Також зустрічається в:",
 
   // Home grid
   browse_by: "Перегляд за",
