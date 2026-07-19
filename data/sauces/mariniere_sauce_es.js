@@ -33,6 +33,6 @@ export default {
     sm: ["Mariniere (Ro)","Normande Sauce (Es)","Normandy (Ro)","Bercy Sauce (Es)","Court Bouillon Sauce (Es)"],
     ti_uk: "30 хв",
     bs_uk: "Рибний бульйон",
-    photo: "./image/mariniere_sauce_es.jpg"
+    photo: "./image/mariniere.jpg"
   }
 };

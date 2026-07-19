@@ -1,5 +1,5 @@
 /* <!-- ANDROID VERSION! --> */
-/* build 1.2.5 — 2026-07-19 */
+/* build 1.3.0 — 2026-07-19 */
 
 window.LANG_UK = {
   // Header
@@ -13,7 +13,7 @@ window.LANG_UK = {
   hero_sub: "Повний каталог соусів Ескоф'є, Бокюза, Робюшона",
 
   // Про застосунок
-  about_version: "Версія 1.2.5",
+  about_version: "Версія 1.3.0",
   about_desc: "Довідник класичних французьких соусів — ієрархія, інгредієнти й техніка. \n\nAugust Escoffier: A Guide to Modern Cookery (1907),\n\nJoel Robuchon: Larousse Gastronomique (1996),\n\nPaul Bocuse: Bocuse Institut Gastronomique (2015)",
   about_credits: "Створено як особистий кулінарний довідник. Не для розповсюдження чи комерційного використання.",
   about_check_update: "Перевірити оновлення",
@@ -25,6 +25,7 @@ window.LANG_UK = {
 
   // Search
   search_placeholder: "Пошук соусів, інгредієнтів",
+  glossary_search_placeholder: "Пошук термінів",
   search_no_results: "Нічого не знайдено для",
 
   // Home grid
@@ -42,7 +43,8 @@ window.LANG_UK = {
   bnav_home: "Головна",
   bnav_structure: "Структура",
   bnav_all: "Всі",
-  bnav_saved: "Збережені",
+  bnav_saved: "Фаворити",
+  bnav_glossary: "Глосарій",
 
   // Screen titles
   title_home: "Французькі соуси",
@@ -76,7 +78,7 @@ window.LANG_UK = {
   meta_classic: "Рецепт",
   
   //Description
-  total_count_note: "Соуси з (Еск) — рецепт Огюста Ескоф'є, (Роб) — Жоеля Робюшона, (Бок) — Поля Бокюза.",
+  total_count_note: "Скорочення в назві Соуса: (Еск)- Огюст Ескоф'є, (Роб) — Жоель Робюшон, (Бок) — Поль Бокюз.",
 
   // Notes
   notes_empty: "Нотаток ще немає. Натисніть Редагувати.",

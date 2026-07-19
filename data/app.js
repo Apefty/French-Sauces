@@ -1,5 +1,5 @@
 /* <!-- ANDROID VERSION! --> */
-// build 1.2.5 — 2026-07-19
+// build 1.3.0 — 2026-07-19
 
 // ── все читається з window.SD (визначено в data.js) ───────────────────
 var SD; // буде присвоєно після завантаження DOM
@@ -123,9 +123,16 @@ function toggleLang() {
 function showAbout() {
   var body = document.getElementById('abb');
   if (!body) return;
-  var isNativeApp = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+  var isNativeApp = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform()); 
+
+  /* FOR LIVE SERVER DEBUGGING ONLY! COMMENT BLOCK BEFORE... */
+  // var isNativeApp = true;
+  // ТИМЧАСОВО для дизайну в Live Server — повернути назад...
+ 
+ 
   body.innerHTML =
-    '<h2 class="about-title">' + x(t('app_title')) + '</h2>'
+  '<div class="about">'
+    + '<h2 class="">' + x(t('app_title')) + '</h2>'
     + '<div class="about-version">' + x(t('about_version')) + '</div>'
     + '<div class="about-desc">' + x(t('about_desc')).replace(/\n/g, '<br>') + '</div>'
     + '<div class="about-credits">' + x(t('about_credits')) + '</div>'
@@ -136,6 +143,7 @@ function showAbout() {
         + '<button class="about-update-btn" id="about-update-btn" onclick="checkAppUpdateFromAbout()">' + x(t('about_check_update')) + '</button>'
         + '<div class="about-update-status" id="about-update-status"></div>'
         + '</div>'
+  +'</div>'
       : '');
   showS('about', x(t('about_title')));
 }
@@ -182,7 +190,7 @@ function rebuildTG() {
 var TITLES = {
   home:'French Sauces', hierarchy:'Sauce Hierarchy', usage:'By Dish / Product',
   technique:'By Technique', sublist:'Sauces', sauce:'Sauce',
-  favs:'Saved Sauces', form:'Add Sauce', about:'About'
+  favs:'Saved Sauces', form:'Add Sauce', about:'About', glossary:'Glossary'
 };
 
 function showS(id, title, push) {
@@ -212,7 +220,7 @@ function showS(id, title, push) {
   var badEl = document.getElementById('bad');
   if (badEl) badEl.style.display = id === 'form' ? 'none' : '';
 
-  ['home','hierarchy','usage','favs','all'].forEach(function(n) {
+  ['home','hierarchy','usage','favs','all','glossary'].forEach(function(n) {
     var el = document.getElementById('nb-' + n);
     if (el) el.classList.toggle('on', n === id);
   });
@@ -226,6 +234,7 @@ function navTo(id) {
   if (id === 'usage') bUsage();
   if (id === 'technique') bTech();
   if (id === 'favs') bFavs();
+  if (id === 'glossary') bGlossary();
   showS(id, null, false);
   if (id === 'all') bAll();
 }
@@ -239,7 +248,7 @@ function goBack() {
     var prevKey = sauceHistory.pop();
     openSauce(prevKey, false);
     document.getElementById('bb').style.display = stk.length > 1 ? '' : 'none';
-    ['home','hierarchy','usage','favs','all'].forEach(function(n) {
+    ['home','hierarchy','usage','favs','all','glossary'].forEach(function(n) {
       var el = document.getElementById('nb-' + n);
       if (el) el.classList.toggle('on', n === id);
     });
@@ -255,7 +264,7 @@ function goBack() {
   document.getElementById('bb').style.display = stk.length > 1 ? '' : 'none';
   document.getElementById('bfh').style.display = id === 'sauce' ? '' : 'none';
  var badEl = entById('bad'); if (badEl) badEl.style.display = id === 'form' ? 'none' : '';
-  ['home','hierarchy','usage','favs','all'].forEach(function(n) {
+  ['home','hierarchy','usage','favs','all','glossary'].forEach(function(n) {
     var el = document.getElementById('nb-' + n);
     if (el) el.classList.toggle('on', n === id);
   });
@@ -427,6 +436,36 @@ function bFavs() {
         + '<span class="li-ar">›</span></div>';
     }).join('') + '</div>';
 }
+// ── GLOSSARY ───────────────────────────────────────────────────────────
+function bGlossary(q) {
+  var glb = document.getElementById('glb');
+  if (!glb) return;
+  var query = (q !== undefined ? q : (document.getElementById('glq') || {}).value || '').trim().toLowerCase();
+
+  var list = (typeof GLOSSARY !== 'undefined' ? GLOSSARY : []);
+  var filtered = !query ? list : list.filter(function(g) {
+    var termHay = [g.term_en, g.term_uk].filter(Boolean).join(' ').toLowerCase();
+    var defHay = (g.defs || []).map(function(d) {
+      return [d.def_en, d.def_uk].filter(Boolean).join(' ');
+    }).join(' ').toLowerCase();
+    return (termHay + ' ' + defHay).indexOf(query) !== -1;
+  });
+
+  if (!filtered.length) {
+    glb.innerHTML = '<div class="search-empty">' + t('search_no_results') + ' <b>' + x(q || '') + '</b></div>';
+    return;
+  }
+
+  glb.innerHTML = '<div class="lb">' + filtered.map(function(g) {
+    var term = currentLang === 'uk' && g.term_uk ? g.term_uk : g.term_en;
+    var defsHtml = (g.defs || []).map(function(d, i) {
+      var def = currentLang === 'uk' && d.def_uk ? d.def_uk : d.def_en;
+      var num = (g.defs.length > 1) ? '<span class="gl-def-num">' + (i + 1) + '.</span>' : '';
+      return '<div class="gl-def">' + num + x(def) + '</div>';
+    }).join('');
+    return '<div class="gl-item"><div class="gl-term">' + x(term) + '</div>' + defsHtml + '</div>';
+  }).join('') + '</div>';
+}
 
 // ── SAUCE CARD ──────────────────────────────────────────────────────
 async function openSauce(key, push) {
@@ -530,7 +569,8 @@ async function openSauce(key, push) {
 
   document.getElementById('sab').innerHTML =
     '<div class="sauce-hero">'
-    + (photo ? '<img class="sauce-hero-img" src="' + photo + '" alt="" onerror="if(this.src.indexOf(\'.jpg\')>-1){this.src=this.src.replace(\'.jpg\',\'.png\')}else{this.style.display=\'none\'}">' : '<div class="sauce-hero-img-placeholder"></div>')
+    /* + (photo ? '<img class="sauce-hero-img" src="' + photo + '" alt="" onerror="if(this.src.indexOf(\'.jpg\')>-1){this.src=this.src.replace(\'.jpg\',\'.png\')}else{this.style.display=\'none\'}">' : '<div class="sauce-hero-img-placeholder"></div>') */
+    + (photo ? '<img class="sauce-hero-img" src="' + photo + '" alt="" onload="sizeSauceHero(this)" onerror="if(this.src.indexOf(\'.jpg\')>-1){this.src=this.src.replace(\'.jpg\',\'.png\')}else{this.style.display=\'none\'}">' : '<div class="sauce-hero-img-placeholder"></div>')
     + '<div class="sauce-hero-body">'
 /*     + '<div class="sbadge">' + (SD.cico[s.cat] || '🍶') + ' ' + x(s.cat)
     + (isCust ? '<span class="cbadge">custom</span>' : '') + '</div>' */
@@ -852,7 +892,7 @@ var changeFontSize = function(delta) {
 
 function applyLang() {
   var btn = document.getElementById('lang-label');
-  if (btn) btn.textContent = currentLang === 'uk' ? 'UA' : 'EN';
+  if (btn) btn.textContent = currentLang === 'uk' ? 'EN' : 'UA';
   // Fill home grid card texts
   setText('nav-hierarchy',      t('nav_hierarchy'));
   setText('nav-hierarchy-desc', t('nav_hierarchy_desc'));
@@ -873,11 +913,14 @@ if (totalNoteEl) totalNoteEl.textContent = t('total_count_note');
 
   var sq = document.getElementById('sq');
   if (sq) sq.placeholder = t('search_placeholder');
+  var glq = document.getElementById('glq');
+  if (glq) glq.placeholder = t('glossary_search_placeholder');
   // Bottom nav
   setText('bnav-home',      t('bnav_home'));
   setText('bnav-structure', t('bnav_structure'));
   setText('bnav-all',       t('bnav_all'));
   setText('bnav-saved',     t('bnav_saved'));
+  setText('bnav-glossary',  t('bnav_glossary'));
 }
 
 function setText(id, val) {
@@ -1057,6 +1100,27 @@ const hero = document.querySelector('.hero');
   `;
   hero.style.backgroundPosition = `50% ${30 + Math.floor(Math.random() * 41)}%`;
 }
+function sizeSauceHero(img) {
+  var container = img.parentElement;
+  var cw = container.clientWidth;
+  var ch = 300;
+
+  var scaleH = ch / img.naturalHeight;
+  var scaledWidth = img.naturalWidth * scaleH;
+
+  var scale;
+  if (scaledWidth < cw) {
+    // фото вужче за контейнер — розтягуємо під ширину екрана, висота стає більшою за 300
+    scale = cw / img.naturalWidth;
+  } else {
+    // фото достатньо широке — тримаємо висоту рівно 300px
+    scale = scaleH;
+  }
+
+  img.style.width  = img.naturalWidth  * scale + 'px';
+  img.style.height = img.naturalHeight * scale + 'px';
+}
+
 
 function initApp() {
   SD = window.SD;

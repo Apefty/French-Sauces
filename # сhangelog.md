@@ -1,5 +1,27 @@
 # Changelog
+## v1.3.0 — 2026-07-19 (in progress)
 
+### Added
+- New **Glossary** screen (`s-glossary`) — bilingual (EN/UK) culinary terms
+  reference with live search across term + all definitions.
+  - New data file `data/glossary.js` (`GLOSSARY` array, term/defs structure,
+    multiple definitions per term supported).
+  - New `bGlossary()` renderer in `data/app.js`, wired into `navTo()`.
+  - 5th bottom-nav button (Home / Structure / All / Saved / **Glossary**).
+  - New CSS block `.gl-item` / `.gl-term` / `.gl-def`.
+  - New offline icon added to `icons/icons-data.js`
+    (`streamline:dictionary-language-book-solid`).
+
+### Fixed
+- Per-sauce hero photo (`.sauce-hero-img` in `openSauce()`) no longer uses
+  CSS `object-fit: cover` (which cropped photos of varying sizes/ratios).
+  Now scales via JS (`sizeSauceHero()`, called on `img.onload`):
+  - Default: scales to exactly 300px height, width proportional.
+  - If that would leave the photo narrower than the screen, scales to
+    fill screen width instead (height then exceeds 300px).
+  - Centered via `margin: 0 auto` on `.sauce-hero-img`.
+
+  
 ## [1.2.5] — 2026-07-19
 
 ### Додано

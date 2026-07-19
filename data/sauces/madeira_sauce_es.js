@@ -42,6 +42,6 @@ export default {
     dv: ["Perigueux Sauce (Es)"],
     sm: ["Madeira (Ro)","Bordelaise Sauce (Es)","Bordelaise (Ro)","Perigueux Sauce (Es)","Perigueux (Ro)","Chasseur Sauce (Es)","Chasseur (Ro)"],
     cl: "Escoffier",
-    photo: "./image/madeira_sauce_es.jpg"
+    photo: "./image/madeira.jpg"
   }
 };

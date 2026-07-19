@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <!-- ANDROID VERSION! -->
-<!-- build 1.2.5 — 2026-07-19 -->
+<!-- build 1.3.0 — 2026-07-19 -->
 
 <head>
     <meta charset="UTF-8">
@@ -21,10 +21,7 @@
     <span class="iconify" data-icon="lets-icons:back"></span>
   </button>
   <div class="htl" id="ht"></div>
-  <div class="font-size-ctrl">
-    <button onclick="changeFontSize(-1)">A−</button>
-    <button onclick="changeFontSize(1)">A+</button>
-  </div>
+
   <button class="hbt lang-btn" onclick="toggleLang()" title="Language">
     <span id="lang-label">EN</span>
   </button>
@@ -47,10 +44,15 @@
       <div class="h-sub" id="hero-sub"></div>
     </div>
     <div class="sw">
+      <div class="font-size-ctrl">
+        <button onclick="changeFontSize(-1)">A−</button>
+        <button onclick="changeFontSize(1)">A+</button>
+      </div>
       <span class="si"><i class="ti ti-search"></i></span>
       <input type="text" id="sq" oninput="oSrch(this.value)">
     </div>
     <div id="sr" class="sres"></div>
+    
     <div id="hm">
       <!-- <div class="slbl" id="browse-by"></div> -->
       <!-- <div class="total-count" id="total-count"></div> -->
@@ -99,6 +101,13 @@
 <div class="scr" id="s-form"><div class="sb"><div class="fbody" id="fb3"></div></div></div>
 
 <div class="scr" id="s-about"><div class="sb" id="abb"></div></div>
+<div class="scr" id="s-glossary">
+  <div class="sw">
+    <span class="si"><i class="fa-solid fa-magnifying-glass"></i></span>
+    <input type="text" id="glq" oninput="bGlossary(this.value)">
+  </div>
+  <div class="sb" id="glb"></div>
+</div>
 
 <div class="bnav">
   <button class="nb on" id="nb-home" onclick="nTo('home')">
@@ -117,9 +126,14 @@
     <i class="fa-solid fa-heart"></i>
     <span id="bnav-saved"></span>
   </button>
+  <button class="nb" id="nb-glossary" onclick="nTo('glossary')">
+  <span class="iconify" data-icon="streamline:dictionary-language-book-solid"></span>
+  <span id="bnav-glossary"></span>
+</button>
 </div>
 </div>
 
+<script src="data/glossary.js"></script>
 <script src="data/data.js"></script>
 <script src="data/app.js"></script>
 <script src="lang/en.js"></script>
