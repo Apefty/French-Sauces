@@ -1,16 +1,5 @@
-/* ТИМЧАСОВА СИНХРОННА ПЕРЕВІРКА — чи файл взагалі виконується */
-(function () {
-  try {
-    var el = document.createElement('div');
-    el.textContent = 'OTA.JS SYNC CHECK: executing at ' + new Date().toISOString();
-    el.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:999999;background:#2980b9;color:#fff;padding:8px;font:12px monospace;';
-    document.body.appendChild(el);
-  } catch (e) {}
-})();
-/* КІНЕЦЬ СИНХРОННОЇ ПЕРЕВІРКИ */
-
 /* <!-- ANDROID VERSION! --> */
-/* build 1.0.0 — 2026-07-19 */
+/* build 1.2.5 — 2026-07-19 */
 /*
   OTA-оновлення через @capgo/capacitor-updater (ручний режим, autoUpdate:false).
   Джерело оновлень — GitHub Releases цього репозиторію (Apefty/French-Sauces).
@@ -22,6 +11,13 @@
 
   Нічого не робить у звичайному вебі/PWA — лише всередині нативного
   Android-застосунку (Capacitor.isNativePlatform()).
+
+  window.OTA.checkForUpdate(opts):
+    opts.force     — обійти 6-годинний ліміт перевірок
+    opts.onStatus  — function(status, extra), status один з:
+                     'checking' | 'up_to_date' | 'downloading' |
+                     'updated' | 'error'
+    opts.onReady   — function(version), викликається перед reload()
 */
 (function () {
   var GH_REPO = 'Apefty/French-Sauces';
@@ -74,6 +70,12 @@
     return res.json();
   }
 
+  function emit(opts, status, extra) {
+    if (opts && typeof opts.onStatus === 'function') {
+      try { opts.onStatus(status, extra); } catch (e) {}
+    }
+  }
+
   async function checkForUpdate(opts) {
     opts = opts || {};
     if (!isNative()) return;
@@ -83,25 +85,30 @@
 
     if (!opts.force && !shouldCheck()) return;
 
+    emit(opts, 'checking');
+
     try {
       var release = await fetchLatestRelease();
       markChecked();
 
       var remoteVersion = (release.tag_name || '').replace(/^v/, '');
-      if (!remoteVersion) { console.warn('[OTA] release has no tag_name'); return; }
+      if (!remoteVersion) { emit(opts, 'error', { message: 'no tag_name' }); return; }
 
       var current = await Updater.current();
       var currentVersion = (current && current.bundle && current.bundle.version) || '0.0.0';
 
       if (!isNewer(remoteVersion, currentVersion)) {
         console.log('[OTA] up to date (' + currentVersion + ')');
+        emit(opts, 'up_to_date', { version: currentVersion });
         return;
       }
 
       var asset = findAsset(release, 'bundle.zip');
-      if (!asset) { console.warn('[OTA] release ' + remoteVersion + ' has no bundle.zip asset'); return; }
+      if (!asset) { emit(opts, 'error', { message: 'no bundle.zip asset' }); return; }
 
       console.log('[OTA] downloading update ' + remoteVersion + ' ...');
+      emit(opts, 'downloading', { version: remoteVersion });
+
       var bundle = await Updater.download({
         url: asset.browser_download_url,
         version: remoteVersion
@@ -109,12 +116,14 @@
 
       await Updater.set({ id: bundle.id });
       console.log('[OTA] update ' + remoteVersion + ' set, reloading...');
+      emit(opts, 'updated', { version: remoteVersion });
 
       if (typeof opts.onReady === 'function') opts.onReady(remoteVersion);
 
       await Updater.reload();
     } catch (err) {
       console.warn('[OTA] update check failed:', err);
+      emit(opts, 'error', { message: err && err.message });
     }
   }
 
@@ -130,68 +139,11 @@
     }
   }
 
-  window.OTA = { checkForUpdate: checkForUpdate };
-
-  // ===== ТИМЧАСОВИЙ ДІАГНОСТИЧНИЙ БЛОК — видалити після перевірки =====
-  function showBanner(text) {
-    var el = document.createElement('div');
-    el.id = 'ota-diag-banner';
-    el.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:999999;' +
-      'background:#c0392b;color:#fff;font:12px/1.4 monospace;padding:10px;' +
-      'white-space:pre-wrap;word-break:break-all;max-height:60vh;overflow:auto;';
-    el.textContent = text;
-    var closeBtn = document.createElement('div');
-    closeBtn.textContent = '[закрити]';
-    closeBtn.style.cssText = 'margin-top:8px;text-decoration:underline;';
-    closeBtn.onclick = function () { el.remove(); };
-    el.appendChild(closeBtn);
-    document.body.appendChild(el);
-  }
-
-  async function diagnosticBanner() {
-    var lines = [];
-    var Updater = getUpdater();
-    if (Updater) {
-      try {
-        var current = await Updater.current();
-        lines.push('CURRENT BUNDLE VERSION: ' + (current && current.bundle && current.bundle.version));
-        lines.push('full: ' + JSON.stringify(current));
-      } catch (e) {
-        lines.push('current() error: ' + e.message);
-      }
-    }
-    try {
-      var release = await fetchLatestRelease();
-      lines.push('latest GitHub release tag: ' + release.tag_name);
-      var asset = findAsset(release, 'bundle.zip');
-      lines.push('bundle.zip asset found: ' + !!asset);
-
-      if (Updater && asset) {
-        var remoteVersion = release.tag_name.replace(/^v/, '');
-        try {
-          lines.push('downloading from: ' + asset.browser_download_url);
-          var bundle = await Updater.download({ url: asset.browser_download_url, version: remoteVersion });
-          lines.push('download OK, bundle id: ' + bundle.id);
-          try {
-            await Updater.set({ id: bundle.id });
-            lines.push('set() OK — update applied, will show on next launch');
-          } catch (setErr) {
-            lines.push('set() ERROR: ' + (setErr && setErr.message) + ' | ' + JSON.stringify(setErr));
-          }
-        } catch (dlErr) {
-          lines.push('download() ERROR: ' + (dlErr && dlErr.message) + ' | ' + JSON.stringify(dlErr));
-        }
-      }
-    } catch (e) {
-      lines.push('GitHub API error: ' + e.message);
-    }
-    showBanner(lines.join('\n'));
-  }
-  // ===== КІНЕЦЬ ТИМЧАСОВОГО БЛОКУ =====
+  window.OTA = { checkForUpdate: checkForUpdate, isNative: isNative };
 
   document.addEventListener('DOMContentLoaded', function () {
     notifyReady();
-    diagnosticBanner();
+    checkForUpdate();
   });
 
   document.addEventListener('visibilitychange', function () {
