@@ -38,6 +38,6 @@ export default {
     dv: [],
     sm: ["Foyot (Ro)","Bearnaise Sauce (Es)","Bearnaise (Ro)","Choron Sauce (Es)","Choron (Ro)"],
     cl: "Escoffier",
-    photo: "./image/foyot_sauce_es.jpg"
+    photo: "./image/foyot.jpg"
   }
 };

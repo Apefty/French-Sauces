@@ -1655,6 +1655,35 @@ margin-top: 16px;
   border-radius: 10px;
 }
 
+.about-update {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.about-update-btn {
+  font-family: "Play", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 1px solid var(--br, #8a7860);
+  background: none;
+  color: var(--br, #8a7860);
+  cursor: pointer;
+}
+
+.about-update-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.about-update-status {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--g);
+  min-height: 16px;
+}
+
 
 /* ── FIXED SIZES (not scaled) ───────────────── */
 .hdr { font-size: 16px !important; }

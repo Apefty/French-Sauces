@@ -54,6 +54,6 @@ export default {
     dv: [],
     sm: ["Genevoise (Ro)","Bordelaise Sauce (Es)","Bordelaise (Ro)","Bourguignonne Sauce (Es)","Bourguignonne Fish (Ro)","Matelote Sauce (Es)"],
     cl: "Escoffier",
-    photo: "./image/genevoise_sauce_es.jpg"
+    photo: "./image/genevoise.jpg"
   }
 };

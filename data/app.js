@@ -105,8 +105,8 @@ function toggleLang() {
   saveUserData();
   var btn = document.getElementById('lang-label');
   if (btn) btn.textContent = currentLang === 'uk' ? 'UA' : 'EN';
-  var aboutOv = document.getElementById('about-overlay');
-  if (aboutOv && aboutOv.style.display !== 'none') showAbout();
+  var aboutScr = document.getElementById('s-about');
+  if (aboutScr && aboutScr.classList.contains('active')) showAbout();
   // Re-render current screen
   var active = document.querySelector('.scr.active, .screen.active');
   if (!active) { initApp(); return; }
@@ -121,22 +121,41 @@ function toggleLang() {
 }
 
 function showAbout() {
-  var body = document.getElementById('about-body');
+  var body = document.getElementById('abb');
   if (!body) return;
+  var isNativeApp = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
   body.innerHTML =
     '<h2 class="about-title">' + x(t('app_title')) + '</h2>'
-+ '<div class="about-version">' + x(t('about_version')) + '</div>'
+    + '<div class="about-version">' + x(t('about_version')) + '</div>'
     + '<div class="about-desc">' + x(t('about_desc')).replace(/\n/g, '<br>') + '</div>'
     + '<div class="about-credits">' + x(t('about_credits')) + '</div>'
     + '<div class="about-image"><img src="./icons/paniot.png" alt="Paniot"></div>'
-    + '<div class="about-copyright">&copy; 2026 Παναγιώτης</div>';
-  var ov = document.getElementById('about-overlay');
-  if (ov) ov.style.display = 'flex';
+    + '<div class="about-copyright">&copy; 2026 Παναγιώτης</div>'
+    + (isNativeApp
+      ? '<div class="about-update">'
+        + '<button class="about-update-btn" id="about-update-btn" onclick="checkAppUpdateFromAbout()">' + x(t('about_check_update')) + '</button>'
+        + '<div class="about-update-status" id="about-update-status"></div>'
+        + '</div>'
+      : '');
+  showS('about', x(t('about_title')));
 }
 
-function hideAbout() {
-  var ov = document.getElementById('about-overlay');
-  if (ov) ov.style.display = 'none';
+function checkAppUpdateFromAbout() {
+  var statusEl = document.getElementById('about-update-status');
+  var btnEl = document.getElementById('about-update-btn');
+  if (!window.OTA || !window.OTA.checkForUpdate) return;
+  if (btnEl) btnEl.disabled = true;
+  window.OTA.checkForUpdate({
+    force: true,
+    onStatus: function (status) {
+      if (!statusEl) return;
+      if (status === 'checking') statusEl.textContent = t('about_checking');
+      else if (status === 'up_to_date') { statusEl.textContent = t('about_up_to_date'); if (btnEl) btnEl.disabled = false; }
+      else if (status === 'downloading') statusEl.textContent = t('about_update_downloading');
+      else if (status === 'updated') statusEl.textContent = t('about_update_applied');
+      else if (status === 'error') { statusEl.textContent = t('about_update_error'); if (btnEl) btnEl.disabled = false; }
+    }
+  });
 }
 
 // ── STATE ─────────────────────────────────────────────────────────────
@@ -163,7 +182,7 @@ function rebuildTG() {
 var TITLES = {
   home:'French Sauces', hierarchy:'Sauce Hierarchy', usage:'By Dish / Product',
   technique:'By Technique', sublist:'Sauces', sauce:'Sauce',
-  favs:'Saved Sauces', form:'Add Sauce'
+  favs:'Saved Sauces', form:'Add Sauce', about:'About'
 };
 
 function showS(id, title, push) {

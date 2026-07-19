@@ -1,3 +1,14 @@
+/* ТИМЧАСОВА СИНХРОННА ПЕРЕВІРКА — чи файл взагалі виконується */
+(function () {
+  try {
+    var el = document.createElement('div');
+    el.textContent = 'OTA.JS SYNC CHECK: executing at ' + new Date().toISOString();
+    el.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:999999;background:#2980b9;color:#fff;padding:8px;font:12px monospace;';
+    document.body.appendChild(el);
+  } catch (e) {}
+})();
+/* КІНЕЦЬ СИНХРОННОЇ ПЕРЕВІРКИ */
+
 /* <!-- ANDROID VERSION! --> */
 /* build 1.0.0 — 2026-07-19 */
 /*
@@ -121,9 +132,66 @@
 
   window.OTA = { checkForUpdate: checkForUpdate };
 
+  // ===== ТИМЧАСОВИЙ ДІАГНОСТИЧНИЙ БЛОК — видалити після перевірки =====
+  function showBanner(text) {
+    var el = document.createElement('div');
+    el.id = 'ota-diag-banner';
+    el.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:999999;' +
+      'background:#c0392b;color:#fff;font:12px/1.4 monospace;padding:10px;' +
+      'white-space:pre-wrap;word-break:break-all;max-height:60vh;overflow:auto;';
+    el.textContent = text;
+    var closeBtn = document.createElement('div');
+    closeBtn.textContent = '[закрити]';
+    closeBtn.style.cssText = 'margin-top:8px;text-decoration:underline;';
+    closeBtn.onclick = function () { el.remove(); };
+    el.appendChild(closeBtn);
+    document.body.appendChild(el);
+  }
+
+  async function diagnosticBanner() {
+    var lines = [];
+    var Updater = getUpdater();
+    if (Updater) {
+      try {
+        var current = await Updater.current();
+        lines.push('CURRENT BUNDLE VERSION: ' + (current && current.bundle && current.bundle.version));
+        lines.push('full: ' + JSON.stringify(current));
+      } catch (e) {
+        lines.push('current() error: ' + e.message);
+      }
+    }
+    try {
+      var release = await fetchLatestRelease();
+      lines.push('latest GitHub release tag: ' + release.tag_name);
+      var asset = findAsset(release, 'bundle.zip');
+      lines.push('bundle.zip asset found: ' + !!asset);
+
+      if (Updater && asset) {
+        var remoteVersion = release.tag_name.replace(/^v/, '');
+        try {
+          lines.push('downloading from: ' + asset.browser_download_url);
+          var bundle = await Updater.download({ url: asset.browser_download_url, version: remoteVersion });
+          lines.push('download OK, bundle id: ' + bundle.id);
+          try {
+            await Updater.set({ id: bundle.id });
+            lines.push('set() OK — update applied, will show on next launch');
+          } catch (setErr) {
+            lines.push('set() ERROR: ' + (setErr && setErr.message) + ' | ' + JSON.stringify(setErr));
+          }
+        } catch (dlErr) {
+          lines.push('download() ERROR: ' + (dlErr && dlErr.message) + ' | ' + JSON.stringify(dlErr));
+        }
+      }
+    } catch (e) {
+      lines.push('GitHub API error: ' + e.message);
+    }
+    showBanner(lines.join('\n'));
+  }
+  // ===== КІНЕЦЬ ТИМЧАСОВОГО БЛОКУ =====
+
   document.addEventListener('DOMContentLoaded', function () {
     notifyReady();
-    checkForUpdate();
+    diagnosticBanner();
   });
 
   document.addEventListener('visibilitychange', function () {

@@ -35,7 +35,7 @@ export default {
     bs: "-",
     df: "Easy",
     ti: "10 min",
-    dv: ["Aioli (Ro)","Cold Andalousian (Ro)","Gribiche (Ro)","Mousseline (Ro)","Ravigote (Ro)","Remoulade (Ro)","Tartar (Ro)","Verte","Vincent Sauce","Aioli (Ro)","Bohemian Sauce","Cold Andalusian (Ro)","Cold Russian (Ro)","Dijonnaise (Ro)","Gribiche (Ro)","La Varenne (Ro)","Remoulade (Ro)","Rouille","Tartar (Ro)","Waterfish Cold (Ro)"],
+    dv: ["Aioli (Ro)","Cold Andalousian (Ro)","Gribiche (Ro)","Mousseline (Ro)","Ravigote (Ro)","Remoulade (Ro)","Tartar (Ro)","Green Sauce (Es)","Vincent Sauce","Aioli (Ro)","Bohemian Sauce","Cold Andalusian (Ro)","Cold Russian (Ro)","Dijonnaise (Ro)","Gribiche (Ro)","La Varenne (Ro)","Remoulade (Ro)","Rouille","Tartar (Ro)","Waterfish Cold (Ro)"],
     sm: ["Mayonnaise Sauce (Es)","Aioli (Ro)","Aioli Sauce (Es)","Remoulade (Ro)","Remoulade Sauce (Es)","Tartar (Ro)"],
     ti_uk: "10 хв",
     bs_uk: "жовток, олія",

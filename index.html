@@ -98,6 +98,8 @@
 <div class="scr" id="s-favs"><div class="sb" id="fb2"></div></div>
 <div class="scr" id="s-form"><div class="sb"><div class="fbody" id="fb3"></div></div></div>
 
+<div class="scr" id="s-about"><div class="sb" id="abb"></div></div>
+
 <div class="bnav">
   <button class="nb on" id="nb-home" onclick="nTo('home')">
     <i class="fa-solid fa-house"></i>
@@ -116,20 +118,6 @@
     <span id="bnav-saved"></span>
   </button>
 </div>
-</div>
-
-<div id="about-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;align-items:center;justify-content:center;padding:20px" onclick="if(event.target===this)hideAbout()">
-  <div style="background:var(--bg,#fffdf7);max-width:420px;width:100%;border-radius:14px;padding:24px;max-height:80vh;overflow-y:auto;position:relative">
-    <button onclick="hideAbout()" style="position:absolute;top:12px;right:12px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--br,#8a7860)">✕</button>
-    <div id="about-body"></div>
-  </div>
-</div>
-
-<div id="about-overlay" class="about-overlay" onclick="if(event.target===this)hideAbout()">
-  <div class="about-box">
-    <button class="about-close" onclick="hideAbout()">✕</button>
-    <div id="about-body"></div>
-  </div>
 </div>
 
 <script src="data/data.js"></script>

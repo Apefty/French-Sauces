@@ -42,6 +42,6 @@ export default {
     dv: [],
     sm: ["Grand Veneur (Ro)","Venison Sauce (Es)","Chevreuil (Ro)","Poivrade Sauce For Venison (Es)","Poivrade (Ro)"],
     cl: "Escoffier",
-    photo: "./image/grand_veneur_sauce_es.jpg"
+    photo: "./image/grand_veneur.jpg"
   }
 };

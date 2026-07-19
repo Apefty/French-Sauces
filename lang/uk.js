@@ -4,6 +4,7 @@
 window.LANG_UK = {
   // Header
   app_title: "Класичний репертуар французьких соусів",
+  about_title: "Про застосунок",
 
   // Hero
   hero_title_1: "Les ",
@@ -15,6 +16,12 @@ window.LANG_UK = {
   about_version: "Версія 1.2.4",
   about_desc: "Довідник класичних французьких соусів — ієрархія, інгредієнти й техніка. \n\nAugust Escoffier: A Guide to Modern Cookery (1907),\n\nJoel Robuchon: Larousse Gastronomique (1996),\n\nPaul Bocuse: Bocuse Institut Gastronomique (2015)",
   about_credits: "Створено як особистий кулінарний довідник. Не для розповсюдження чи комерційного використання.",
+  about_check_update: "Перевірити оновлення",
+  about_checking: "Перевірка оновлень...",
+  about_up_to_date: "У вас остання версія",
+  about_update_downloading: "Знайдено оновлення, завантаження...",
+  about_update_applied: "Оновлення встановлено — перезапуск",
+  about_update_error: "Не вдалося перевірити оновлення",
 
   // Search
   search_placeholder: "Пошук соусів, інгредієнтів",

@@ -4,6 +4,7 @@
 window.LANG_EN = {
   // Header
   app_title: "Classical Repertoire of French Sauces",
+  about_title: "About",
 
   // Hero
   hero_title_1: "Les ",
@@ -15,6 +16,12 @@ window.LANG_EN = {
   about_version: "Version 1.2.4",
   about_desc: "A reference catalog of classical French sauces — hierarchy, ingredients, and technique. \n\nAugust Escoffier: A Guide to Modern Cookery (1907),\n\nJoel Robuchon: Larousse Gastronomique (1996),\n\nPaul Bocuse: Bocuse Institut Gastronomique (2015)",
   about_credits: "Built for personal culinary reference only. \nNot for distribution or commercial use.",
+  about_check_update: "Check for updates",
+  about_checking: "Checking for updates...",
+  about_up_to_date: "You have the latest version",
+  about_update_downloading: "Update found, downloading...",
+  about_update_applied: "Update installed — restarting",
+  about_update_error: "Could not check for updates",
 
   // Search
   search_placeholder: "Search sauces, ingredients",
