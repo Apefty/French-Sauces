@@ -291,6 +291,22 @@ body {
     font-weight:400;
 }
 
+.search-box {
+    position: relative;
+}
+.search-box input {
+    width: 100%;
+    height: 42px;
+    border: 2px solid var(--br);
+    border-radius: 16px;
+    padding: 0 40px 0 42px;   /* місце для іконки та ✕ */
+    font-size: calc(16px * var(--fs-scale));
+    background: var(--card);
+    color: var(--tx);
+    outline: none;
+    font-family: "Play", sans-serif;
+}
+
 .sw {
     padding:15px 15px 0;
     position:relative;
@@ -301,7 +317,7 @@ body {
     height:42px;
     border:2px solid var(--br);
     border-radius:16px;
-    padding:0 14px 0 10px;
+    padding:0 14px 0 40px;
     font-size: calc(16px  * var(--fs-scale));
     background:var(--card);
     color:var(--tx);
@@ -320,6 +336,10 @@ body {
     color:var(--tx);
     text-align: center;
 }
+.sw input:focus::placeholder {
+    color: transparent;
+}
+
 .s-all-top {
   display: flex;
     align-items: center;
@@ -337,27 +357,30 @@ body {
     position:absolute;
     right:25px;
     top:50%;
-    transform:translateY(50%);
+    transform:translateY(-50%);
     display:none;
     align-items:center;
     justify-content:center;
-    width:22px;
-    height:22px;
+    width:30px;
+    aspect-ratio: 1;
     border-radius:50%;
-    background:var(--br);
+    background:transparent;
     color:var(--tx2);
     font-size:13px;
     cursor:pointer;
+    z-index: 2;
 }
 .si {
-    position:absolute;
-    left:24px;
-    top:50%;
-    transform:translateY(-50%);
-    color:var(--tx2);
+    position: absolute;
+    padding-left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--tx2);
     font-size: calc(16px * var(--fs-scale));
-    pointer-events:none;
+    pointer-events: none;
+    z-index: 2;
 }
+
 
 .slbl {
     padding:30px 15px 0px;
@@ -769,10 +792,16 @@ font-family: "Play", sans-serif;
     font-family: 'Play', sans-serif;
     font-size: calc(20px * var(--fs-scale));
     font-weight:600;
-    color:var(--b2);
+    color:var(--g);
     margin-bottom:4px;
 }
-
+.gl-fr {
+    font-family: 'Merriweather', serif;
+    font-size: calc(15px * var(--fs-scale));
+    font-style: italic;
+    color: var(--tx2);
+    margin-bottom: 6px;
+}
 .gl-def {
     font-size: calc(15px * var(--fs-scale));
     color:var(--tx);
@@ -1061,7 +1090,7 @@ font-family: "Play", sans-serif;
 }
 .mvue {
     word-break: normal;
-    overflow-wrap: break-word;
+    overflow-wrap: normal;
 }
 .mv-classic {
   font: 600 calc(1rem * var(--fs-scale))/1.4 "Play", serif;

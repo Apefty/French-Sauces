@@ -274,102 +274,63 @@ function goBack() {
 
 // ── SEARCH ─────────────────────────────────────────────────────────────
 function onSearch(v) {
-  updateClearButton('sq');
-
+  document.getElementById('sq-clear').style.display = v ? 'flex' : 'none';
   var q = v.trim().toLowerCase();
   var res = document.getElementById('sr');
   var main = document.getElementById('hm');
-
-  if (!q) {
-    res.style.display = 'none';
-    res.innerHTML = '';
-    main.style.display = '';
-    return;
-  }
-
-  res.style.display = 'block';
-  main.style.display = 'none';
-
+  if (!q) { res.style.display = 'none'; res.innerHTML = ''; main.style.display = ''; return; }
+  res.style.display = 'block'; main.style.display = 'none';
   var R = allR();
   var ukCat = (window.LANG_UK && window.LANG_UK.cat) || {};
   var ukMo  = (window.LANG_UK && window.LANG_UK.mo)  || {};
-
   var ms = Object.keys(R).filter(function(k) {
     var s = R[k];
     var ingr   = Object.values(s.ig    || {}).reduce(function(a,b){ return a.concat(b); }, []);
     var ingrUk = Object.values(s.ig_uk || {}).reduce(function(a,b){ return a.concat(b); }, []);
-
     return [s.nm, s.nm_uk, s.fr, s.cat, ukCat[s.cat], s.mo, ukMo[s.mo], s.rc || '', s.rc_uk || '']
       .concat(s.pr || [], s.pr_uk || [])
       .concat(ingr, ingrUk)
-      .join(' ')
-      .toLowerCase()
-      .indexOf(q) !== -1;
+      .join(' ').toLowerCase().indexOf(q) !== -1;
   });
-
   if (!ms.length) {
     res.innerHTML = '<div class="search-empty">' + t('search_no_results') + ' <b>' + x(v) + '</b></div>';
     return;
   }
 
+  // Rank: 0 = exact name match, 1 = name starts with query, 2 = name contains query, 3 = matched via other fields only
   function nameRank(k) {
     var s = R[k];
     var nameEn = (s.nm || '').toLowerCase();
     var nameUk = (s.nm_uk || '').toLowerCase();
-
     if (nameEn === q || nameUk === q) return 0;
     if (nameEn.indexOf(q) === 0 || nameUk.indexOf(q) === 0) return 1;
     if (nameEn.indexOf(q) !== -1 || nameUk.indexOf(q) !== -1) return 2;
-
     return 3;
   }
-
-  ms = ms.map(function(k) {
-      return { k: k, r: nameRank(k) };
-    })
-    .sort(function(a, b) {
-      return a.r - b.r;
-    })
-    .map(function(o) {
-      return o.k;
-    });
+  ms = ms.map(function(k) { return { k: k, r: nameRank(k) }; })
+    .sort(function(a, b) { return a.r - b.r; })
+    .map(function(o) { return o.k; });
 
   var firstOtherIdx = -1;
-
   for (var i = 0; i < ms.length; i++) {
-    if (nameRank(ms[i]) === 3) {
-      firstOtherIdx = i;
-      break;
-    }
+    if (nameRank(ms[i]) === 3) { firstOtherIdx = i; break; }
   }
 
   res.innerHTML = ms.map(function(k, i) {
     var s = R[k];
-    var sep = (i === firstOtherIdx)
-      ? '<div class="sres-sep">' + t('search_also_in') + '</div>'
-      : '';
-
-    return sep +
-      '<div class="sri" onclick="openSauce(\'' + k + '\')">' +
-      '<div class="sri-ico">' + (SD.cico[s.cat] || '🍶') + '</div>' +
-      '<div><div class="sri-n">' + x(sName(s.nm)) + '</div>' +
-      '<div class="sri-c">' + x(trCat(s.cat)) + ' · ' + x(trVal("tp", s.tp)) + '</div></div>' +
-      '<span style="margin-left:auto;color:var(--border)">›</span></div>';
+    var sep = (i === firstOtherIdx) ? '<div class="sres-sep">' + t('search_also_in') + '</div>' : '';
+    return sep + '<div class="sri" onclick="openSauce(\'' + k + '\')">'
+      + '<div class="sri-ico">' + (SD.cico[s.cat] || '🍶') + '</div>'
+      + '<div><div class="sri-n">' + x(sName(s.nm)) + '</div>'
+      + '<div class="sri-c">' + x(trCat(s.cat)) + ' · ' + x(trVal('tp', s.tp)) + '</div></div>'
+      + '<span style="margin-left:auto;color:var(--border)">›</span></div>';
   }).join('');
 }
 function clearSearch(inputId, renderFn) {
   var input = document.getElementById(inputId);
-
   input.value = '';
-  updateClearButton(inputId);
-
   renderFn('');
   input.focus();
-}
-function updateClearButton(inputId) {
-  var input = document.getElementById(inputId);
-  var clear = document.getElementById(inputId + '-clear');
-  if (clear) clear.style.display = input.value ? 'flex' : 'none';
 }
 // ── SEARCH KEY ─────────────────────────────────────────────────────────
 function fKey(nm) {
