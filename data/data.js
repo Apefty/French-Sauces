@@ -1,5 +1,5 @@
 /* <!-- ANDROID VERSION! --> */
-/* build 1.3.1 — 2026-07-20 */
+/* build 1.4.0 — 2026-07-21 */
 
 // data/data.js
 // Global metadata only — no sauce recipes here.
