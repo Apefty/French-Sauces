@@ -1074,6 +1074,15 @@ function bAll(filter) {
     return item.cat === allFilter;
   });
 
+  var q = (document.getElementById('allq') || {}).value || '';
+  q = q.trim().toLowerCase();
+  if (q) {
+    filtered = filtered.filter(function(item) {
+      return (item.nm || '').toLowerCase().indexOf(q) !== -1
+        || sName(item.nm).toLowerCase().indexOf(q) !== -1;
+    });
+  }
+
   var albEl = document.getElementById('alb');
   if (!albEl) return;
 

@@ -109,19 +109,26 @@
   <div class="sb" id="slb"></div>
 </div>
 <div class="scr" id="s-all">
-  <div class="sort-bar">
-  <button class="sort-btn" onclick="toggleSortMenu('sort-menu-all')">
-    <i class="fa-solid fa-arrow-down-wide-short"></i>
-  </button>
-  <div class="sort-menu" id="sort-menu-all">
-    <div onclick="pickSort('sort-menu-all','az',bAll)" data-i18n="sort_az"></div>
-    <div onclick="pickSort('sort-menu-all','za',bAll)" data-i18n="sort_za"></div>
-    <div onclick="pickSort('sort-menu-all','time-asc',bAll)" data-i18n="sort_time_asc"></div>
-    <div onclick="pickSort('sort-menu-all','time-desc',bAll)" data-i18n="sort_time_desc"></div>
-    <div onclick="pickSort('sort-menu-all','diff-asc',bAll)" data-i18n="sort_diff_asc"></div>
-    <div onclick="pickSort('sort-menu-all','diff-desc',bAll)" data-i18n="sort_diff_desc"></div>
-  </div>
-</div>
+    <div class="s-all-top">
+      <div class="sw">
+        <span class="si"><i class="fa-solid fa-magnifying-glass"></i></span>
+        <input type="text" id="allq" oninput="bAll()">
+      </div>
+      <div class="sort-bar">
+        <button class="sort-btn" onclick="toggleSortMenu('sort-menu-all')">
+        <i class="fa-solid fa-arrow-down-wide-short"></i>
+        </button>
+        <div class="sort-menu" id="sort-menu-all">
+          <div onclick="pickSort('sort-menu-all','az',bAll)" data-i18n="sort_az"></div>
+          <div onclick="pickSort('sort-menu-all','za',bAll)" data-i18n="sort_za"></div>
+          <div onclick="pickSort('sort-menu-all','time-asc',bAll)" data-i18n="sort_time_asc"></div>
+          <div onclick="pickSort('sort-menu-all','time-desc',bAll)" data-i18n="sort_time_desc"></div>
+          <div onclick="pickSort('sort-menu-all','diff-asc',bAll)" data-i18n="sort_diff_asc"></div>
+          <div onclick="pickSort('sort-menu-all','diff-desc',bAll)" data-i18n="sort_diff_desc"></div>
+          </div>
+      </div>
+    </div>
+
   <div class="all-filter" id="all-filter"></div>
   <div class="sb" id="alb"></div>
 </div>
