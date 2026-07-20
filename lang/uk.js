@@ -26,6 +26,12 @@ window.LANG_UK = {
   // Search
   search_placeholder: "Пошук соусів, інгредієнтів",
   glossary_search_placeholder: "Пошук термінів",
+  sort_az: "Назва (А–Я)",
+  sort_za: "Назва (Я–А)",
+  sort_time_asc: "Час (спершу швидкі)",
+  sort_time_desc: "Час (спершу довгі)",
+  sort_diff_asc: "Складність (спершу легкі)",
+  sort_diff_desc: "Складність (спершу складні)",
   search_no_results: "Нічого не знайдено для",
   search_also_in: "Також зустрічається в:",
 

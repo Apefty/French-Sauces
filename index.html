@@ -50,6 +50,7 @@
       </div>
       <span class="si"><i class="ti ti-search"></i></span>
       <input type="text" id="sq" oninput="oSrch(this.value)">
+      <span class="sclr" id="sq-clear" onclick="clearSearch('sq', onSearch)">✕</span>
     </div>
     <div id="sr" class="sres"></div>
     
@@ -91,8 +92,37 @@
 <div class="scr" id="s-hierarchy"><div class="sb" id="hb"></div></div>
 <div class="scr" id="s-usage"><div class="sb" id="ub"></div></div>
 <div class="scr" id="s-technique"><div class="sb" id="tb"></div></div>
-<div class="scr" id="s-sublist"><div class="sb" id="slb"></div></div>
+<div class="scr" id="s-sublist">
+  <div class="sort-bar">
+    <button class="sort-btn" onclick="toggleSortMenu('sort-menu-sublist')">
+      <i class="fa-solid fa-arrow-down-wide-short"></i>
+    </button>
+    <div class="sort-menu" id="sort-menu-sublist">
+      <div onclick="pickSort('sort-menu-sublist','az',renderSublist)" data-i18n="sort_az"></div>
+      <div onclick="pickSort('sort-menu-sublist','za',renderSublist)" data-i18n="sort_za"></div>
+      <div onclick="pickSort('sort-menu-sublist','time-asc',renderSublist)" data-i18n="sort_time_asc"></div>
+      <div onclick="pickSort('sort-menu-sublist','time-desc',renderSublist)" data-i18n="sort_time_desc"></div>
+      <div onclick="pickSort('sort-menu-sublist','diff-asc',renderSublist)" data-i18n="sort_diff_asc"></div>
+      <div onclick="pickSort('sort-menu-sublist','diff-desc',renderSublist)" data-i18n="sort_diff_desc"></div>
+    </div>
+  </div>
+  <div class="sb" id="slb"></div>
+</div>
+</div>
 <div class="scr" id="s-all">
+  <div class="sort-bar">
+  <button class="sort-btn" onclick="toggleSortMenu('sort-menu-all')">
+    <i class="fa-solid fa-arrow-down-wide-short"></i>
+  </button>
+  <div class="sort-menu" id="sort-menu-all">
+    <div onclick="pickSort('sort-menu-all','az',bAll)" data-i18n="sort_az"></div>
+    <div onclick="pickSort('sort-menu-all','za',bAll)" data-i18n="sort_za"></div>
+    <div onclick="pickSort('sort-menu-all','time-asc',bAll)" data-i18n="sort_time_asc"></div>
+    <div onclick="pickSort('sort-menu-all','time-desc',bAll)" data-i18n="sort_time_desc"></div>
+    <div onclick="pickSort('sort-menu-all','diff-asc',bAll)" data-i18n="sort_diff_asc"></div>
+    <div onclick="pickSort('sort-menu-all','diff-desc',bAll)" data-i18n="sort_diff_desc"></div>
+  </div>
+</div>
   <div class="all-filter" id="all-filter"></div>
   <div class="sb" id="alb"></div>
 </div>

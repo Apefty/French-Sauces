@@ -274,6 +274,7 @@ function goBack() {
 
 // ── SEARCH ─────────────────────────────────────────────────────────────
 function onSearch(v) {
+  document.getElementById('sq-clear').style.display = v ? 'flex' : 'none';
   var q = v.trim().toLowerCase();
   var res = document.getElementById('sr');
   var main = document.getElementById('hm');
@@ -325,7 +326,12 @@ function onSearch(v) {
       + '<span style="margin-left:auto;color:var(--border)">›</span></div>';
   }).join('');
 }
-
+function clearSearch(inputId, renderFn) {
+  var input = document.getElementById(inputId);
+  input.value = '';
+  renderFn('');
+  input.focus();
+}
 // ── SEARCH KEY ─────────────────────────────────────────────────────────
 function fKey(nm) {
   var R = allR();
@@ -413,31 +419,32 @@ function bTech() {
 }
 
 function showSL(title, items) {
-  document.getElementById('slb').innerHTML = '<div class="list-body">'
-    + items.map(function(nm) {
-      var k = fKey(nm);
-      var callKey = k || nm;
-      return '<div class="li" onclick="openSauce(\'' + x(callKey) + '\')">'
-        + '<div class="li-n">' + x(sName(nm)) + '</div>'
-        + '<span class="li-ar">›</span>'
-        + '</div>';
-    }).join('') + '</div>';
+  window._slItems = items; window._slMode = 'names';
+  renderSublist();
   showS('sublist', title);
 }
 
 function showSLK(title, keys) {
+  window._slItems = keys; window._slMode = 'keys';
+  renderSublist();
+  showS('sublist', title);
+}
+
+function renderSublist() {
   var R = allR();
+  var items = window._slItems || [];
+  var keys = (window._slMode === 'keys') ? items : items.map(function(nm) { return fKey(nm) || nm; });
+  keys = sortSauceKeys(keys, R, sortModeSublist);
   document.getElementById('slb').innerHTML = '<div class="list-body">'
     + keys.map(function(k) {
       var s = R[k];
-      var nm = s ? s.nm : k;
+      var nm = s ? sName(s.nm) : k;
       var cat = s ? s.cat : '';
       return '<div class="li" onclick="openSauce(\'' + x(k) + '\')">'
         + '<div style="flex:1"><div class="li-n">' + x(nm) + '</div>'
         + (cat ? '<div class="li-s">' + x(trCat(cat)) + '</div>' : '') + '</div>'
         + '<span class="li-ar">›</span></div>';
     }).join('') + '</div>';
-  showS('sublist', title);
 }
 
 // ── SAVED ─────────────────────────────────────────────────────────────
@@ -942,6 +949,10 @@ if (totalNoteEl) totalNoteEl.textContent = t('total_count_note');
   setText('bnav-all',       t('bnav_all'));
   setText('bnav-saved',     t('bnav_saved'));
   setText('bnav-glossary',  t('bnav_glossary'));
+
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    el.textContent = t(el.getAttribute('data-i18n'));
+  });
 }
 
 function setText(id, val) {
@@ -982,6 +993,49 @@ function allSaucesList() {
     return { nm: nm, key: nameMap[nm].key, cat: nameMap[nm].cat, hasRecipe: nameMap[nm].hasRecipe };
   }).sort(function(a, b) { return a.nm.localeCompare(b.nm); });
 }
+// ── SORTING ──────────────────────────────────────────────────────────
+var DIFF_ORDER = { Easy: 0, Medium: 1, Hard: 2 };
+function parseTimeMin(s) {
+  var m = /(\d+)/.exec(s || '');
+  return m ? parseInt(m[1], 10) : 0;
+}
+function sortName(k, R) {
+  return (currentLang === 'uk' && R[k].nm_uk) ? R[k].nm_uk : R[k].nm;
+}
+function sortSauceKeys(keys, R, mode) {
+  var arr = keys.slice();
+  switch (mode) {
+    case 'za':
+      return arr.sort(function(a, b) { return sortName(b, R).localeCompare(sortName(a, R), ['uk', 'en'], { sensitivity: 'base' }); });
+    case 'time-asc':
+      return arr.sort(function(a, b) { return parseTimeMin(R[a].ti) - parseTimeMin(R[b].ti); });
+    case 'time-desc':
+      return arr.sort(function(a, b) { return parseTimeMin(R[b].ti) - parseTimeMin(R[a].ti); });
+    case 'diff-asc':
+      return arr.sort(function(a, b) { return (DIFF_ORDER[R[a].df] || 0) - (DIFF_ORDER[R[b].df] || 0); });
+    case 'diff-desc':
+      return arr.sort(function(a, b) { return (DIFF_ORDER[R[b].df] || 0) - (DIFF_ORDER[R[a].df] || 0); });
+    case 'az':
+    default:
+      return arr.sort(function(a, b) { return sortName(a, R).localeCompare(sortName(b, R), ['uk', 'en'], { sensitivity: 'base' }); });
+  }
+}
+var SORT_LABELS_KEY = { az: 'sort_az', za: 'sort_za', 'time-asc': 'sort_time_asc', 'time-desc': 'sort_time_desc', 'diff-asc': 'sort_diff_asc', 'diff-desc': 'sort_diff_desc' };
+
+function toggleSortMenu(menuId) {
+  document.querySelectorAll('.sort-menu').forEach(function(m) {
+    if (m.id !== menuId) m.classList.remove('open');
+  });
+  document.getElementById(menuId).classList.toggle('open');
+}
+function pickSort(menuId, mode, applyFn) {
+  if (menuId === 'sort-menu-all') sortModeAll = mode;
+  if (menuId === 'sort-menu-sublist') sortModeSublist = mode;
+  document.getElementById(menuId).classList.remove('open');
+  applyFn();
+}
+var sortModeAll = 'az';
+var sortModeSublist = 'az';
 
 function bAll(filter) {
   if (filter !== undefined) allFilter = filter;
@@ -1008,8 +1062,8 @@ function bAll(filter) {
   if (htEl && allScreenActive) {
     htEl.textContent = t('title_all') + ' (' + filtered.length + ')';
   }
-
-  albEl.innerHTML = '<div class="lb">' + filtered.map(function(item) {
+filtered = sortSauceKeys(filtered, R, sortModeAll);
+ albEl.innerHTML = '<div class="lb">' + filtered.map(function(item) {
     var isCustom = item.key && !!custom[item.key];
     return '<div class="all-item">'
       + '<div class="ai-main">'

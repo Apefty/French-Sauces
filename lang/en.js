@@ -26,6 +26,12 @@ window.LANG_EN = {
   // Search
   search_placeholder: "Search sauces, ingredients",
   glossary_search_placeholder: "Search terms",
+  sort_az: "Name (A–Z)",
+  sort_za: "Name (Z–A)",
+  sort_time_asc: "Time (fastest first)",
+  sort_time_desc: "Time (slowest first)",
+  sort_diff_asc: "Difficulty (easiest first)",
+  sort_diff_desc: "Difficulty (hardest first)",
   search_no_results: "No results for",
   search_also_in: "Also found in:",
 
