@@ -1102,7 +1102,7 @@ filtered = sortAllItems(filtered, allR(), sortModeAll);
       + '<div class="ai-btns">'
       + (item.key ? '<button class="ai-view" onclick="openSauce(\'' + x(item.key) + '\')">View</button>' : '')
       /* + '<button class="ai-edit" onclick="editSauce(\'' + x(item.nm) + '\')">Edit</button>' */
-      + (isCustom ? '<button class="ai-del" onclick="doDelete(\'' + x(item.key) + '\')"><span class="iconify" data-icon="mdi:trash" style="font-size:28px"></span></button>' : '')
+/*       + (isCustom ? '<button class="ai-del" onclick="doDelete(\'' + x(item.key) + '\')"><span class="iconify" data-icon="mdi:trash" style="font-size:28px"></span></button>' : '') */
       + '</div>'
       + '</div>';
   }).join('') + '</div>';
