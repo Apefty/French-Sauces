@@ -320,6 +320,18 @@ body {
     color:var(--tx);
     text-align: center;
 }
+.s-all-top {
+  display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.s-all-top > .sw {
+    flex: 1;
+}
+.s-all-top > .sort-bar {
+    flex: 0 0 auto;
+}
+
 
 .sclr {
     position:absolute;
@@ -1715,6 +1727,12 @@ padding: 10px 25px;
   cursor: pointer;
   color: var(--r);
 }
+.about h2 { 
+    text-align: center; 
+    font-family: "Play", sans-serif; 
+    text-transform: capitalize;
+    font-weight: 400; 
+}
 
 .about-title {
   margin: 0 0 4px;
@@ -1727,9 +1745,10 @@ font-weight: 400;
 }
 
 .about-version {
-  margin-bottom: 16px;
+  margin: 10px auto 16px;
   font-size: 18px;
   text-align: center;
+  border-top: solid 1px var(--br);
 }
 
 .about-desc {
