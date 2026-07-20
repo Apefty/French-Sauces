@@ -1,4 +1,4 @@
-/* <!-- ANDROID VERSION! --> */
+/* <!-- WINDOWS VERSION! --> */
 /* build 1.4.0 — 2026-07-21 */
 
 // data/data.js
