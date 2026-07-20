@@ -1,5 +1,5 @@
 /* <!-- ANDROID VERSION! --> */
-// build 1.3.1 — 2026-07-19
+// build 1.3.1 — 2026-07-20
 
 // ── все читається з window.SD (визначено в data.js) ───────────────────
 var SD; // буде присвоєно після завантаження DOM
@@ -511,7 +511,7 @@ function bGlossary(q) {
 
   var list = (typeof GLOSSARY !== 'undefined' ? GLOSSARY : []);
   var filtered = !query ? list : list.filter(function(g) {
-    var termHay = [g.term_en, g.term_uk].filter(Boolean).join(' ').toLowerCase();
+    var termHay = [g.term_en, g.term_uk, g.fr].filter(Boolean).join(' ').toLowerCase();
     var defHay = (g.defs || []).map(function(d) {
       return [d.def_en, d.def_uk].filter(Boolean).join(' ');
     }).join(' ').toLowerCase();
@@ -530,7 +530,9 @@ function bGlossary(q) {
       var num = (g.defs.length > 1) ? '<span class="gl-def-num">' + (i + 1) + '.</span>' : '';
       return '<div class="gl-def">' + num + x(def) + '</div>';
     }).join('');
-    return '<div class="gl-item"><div class="gl-term">' + x(term) + '</div>' + defsHtml + '</div>';
+
+var frHtml = g.fr ? '<div class="gl-fr">' + x(g.fr) + '</div>' : '';
+    return '<div class="gl-item"><div class="gl-term">' + x(term) + '</div>' + frHtml + defsHtml + '</div>';
   }).join('') + '</div>';
 }
 
@@ -636,11 +638,10 @@ async function openSauce(key, push) {
 
   document.getElementById('sab').innerHTML =
     '<div class="sauce-hero">'
-    /* + (photo ? '<img class="sauce-hero-img" src="' + photo + '" alt="" onerror="if(this.src.indexOf(\'.jpg\')>-1){this.src=this.src.replace(\'.jpg\',\'.png\')}else{this.style.display=\'none\'}">' : '<div class="sauce-hero-img-placeholder"></div>') */
     + (photo ? '<img class="sauce-hero-img" src="' + photo + '" alt="" onload="sizeSauceHero(this)" onerror="if(this.src.indexOf(\'.jpg\')>-1){this.src=this.src.replace(\'.jpg\',\'.png\')}else{this.style.display=\'none\'}">' : '<div class="sauce-hero-img-placeholder"></div>')
     + '<div class="sauce-hero-body">'
-/*     + '<div class="sbadge">' + (SD.cico[s.cat] || '🍶') + ' ' + x(s.cat)
-    + (isCust ? '<span class="cbadge">custom</span>' : '') + '</div>' */
+
+    + (isCust ? '<span class="cbadge">custom</span>' : '') + '</div>'
     + '<div class="stit">' + x(nm) + '</div>'
     + (s.fr && s.fr !== nm ? '<div class="stit-fr">' + x(s.fr) + '</div>' : '')
     + '</div></div>'
@@ -675,7 +676,7 @@ async function openSauce(key, push) {
 
     + '<div class="ssec"><div class="ar">'
     + '<button class="ab btn-save' + (fav ? ' on' : '') + '" id="btn-fav-card" onclick="toggleFav()">' + (fav ? '<span class="iconify" data-icon="mdi:heart"></span> ' + t('btn_in_favs') : '<span class="iconify" data-icon="mdi:heart-outline"></span> ' + t('btn_add_favs')) + '</button>'
-  /*   + '<button class="ab ab-ed" onclick="openForm(\'' + key + '\')">✎ Edit</button>' */
+
     + (isCust ? '<button class="ab ab-dlete" onclick="doDelete(\'' + key + '\')">🗑</button>' : '')
     + '</div></div>'
     + '<div style="height:40px"></div>';
@@ -692,10 +693,6 @@ async function openSauce(key, push) {
   updFavIco();
 }
 
-/* function cell(label, val) {
-  return '<div class="mi"><div class="ml">' + label + '</div>'
-    + '<div class="mvue">' + x(val || '—') + '</div></div>';
-} */
 function cell(label, val, extraClass) {
   return '<div class="mi"><div class="ml">' + label + '</div>'
     + '<div class="mvue' + (extraClass ? ' ' + extraClass : '') + '">' + x(val || '—') + '</div></div>';
@@ -970,8 +967,7 @@ function applyLang() {
   setText('nav-all',            t('nav_all'));
   setText('nav-all-desc',       t('nav_all_desc'));
   setText('browse-by',          t('browse_by'));
-/*   var totalEl = document.getElementById('total-count');
-  if (totalEl) totalEl.textContent = t('label_total_count') + ': ' + allSaucesList().length; */
+
 var totalNumEl = document.getElementById('total-count-number');
 if (totalNumEl) totalNumEl.textContent = t('label_total_count') + ': ' + allSaucesList().length;
 
@@ -1096,7 +1092,7 @@ function sortAllItems(items, R, mode) {
 }
 
 function bAll(filter) {
-  if (filter !== undefined) allFilter = filter;
+ if (filter !== undefined && filter !== '') allFilter = filter;
   var list = allSaucesList();
   var catObjs = [{ nm: 'All', nm_uk: t('sort_all_cat') || 'All' }].concat(SD.cats.map(function(c) { return { nm: c.nm, nm_uk: c.nm_uk }; }));
 
