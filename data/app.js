@@ -263,7 +263,7 @@ function goBack() {
   document.getElementById('ht').textContent = t;
   document.getElementById('bb').style.display = stk.length > 1 ? '' : 'none';
   document.getElementById('bfh').style.display = id === 'sauce' ? '' : 'none';
- var badEl = entById('bad'); if (badEl) badEl.style.display = id === 'form' ? 'none' : '';
+ var badEl = document.getElementById('bad'); if (badEl) badEl.style.display = id === 'form' ? 'none' : '';
   ['home','hierarchy','usage','favs','all','glossary'].forEach(function(n) {
     var el = document.getElementById('nb-' + n);
     if (el) el.classList.toggle('on', n === id);
@@ -1000,7 +1000,9 @@ function parseTimeMin(s) {
   return m ? parseInt(m[1], 10) : 0;
 }
 function sortName(k, R) {
-  return (currentLang === 'uk' && R[k].nm_uk) ? R[k].nm_uk : R[k].nm;
+  var s = R[k];
+  if (!s) return k;
+  return (currentLang === 'uk' && s.nm_uk) ? s.nm_uk : s.nm;
 }
 function sortSauceKeys(keys, R, mode) {
   var arr = keys.slice();
@@ -1057,12 +1059,13 @@ function sortAllItems(items, R, mode) {
 function bAll(filter) {
   if (filter !== undefined) allFilter = filter;
   var list = allSaucesList();
-  var cats = ['All'].concat(SD.cats.map(function(c) { return c.nm; }));
+  var catObjs = [{ nm: 'All', nm_uk: t('sort_all_cat') || 'All' }].concat(SD.cats.map(function(c) { return { nm: c.nm, nm_uk: c.nm_uk }; }));
 
   var filterEl = document.getElementById('all-filter');
   if (filterEl) {
-    filterEl.innerHTML = cats.map(function(c) {
-      return '<button class="fc' + (allFilter === c ? ' on' : '') + '" onclick="bAll(\'' + c + '\')">' + c + '</button>';
+    filterEl.innerHTML = catObjs.map(function(c) {
+      var label = (currentLang === 'uk' && c.nm_uk) ? c.nm_uk : c.nm;
+      return '<button class="fc' + (allFilter === c.nm ? ' on' : '') + '" onclick="bAll(\'' + c.nm + '\')">' + x(label) + '</button>';
     }).join('');
   }
 
@@ -1143,7 +1146,7 @@ var ALL_SAUCE_KEYS = [
   'Ordinary Chaud-Froid Sauce (Es)', 'Ordinary Poivrade Sauce (Es)', 'Oriental Sauce (Es)', 'Oxford Sauce', 'Oyster (Ro)','Oxford Sauce (Es)',
 
  // P
-'Paloise (Ro)', 'Parsley Sauce (Es)', 'Peach Sauce (Ro)', 'Perigueux (Ro)', 'Perigueux Sauce (Es)', 'Pignons Sauce (Es)', 'Piquante (Ro)', 'Piquante Sauce (Es)', 'Pistachio Butter (Es)', 'Poivrade (Ro)', 'Poivrade Sauce for Venison (Es)', 'Porto', 'Poulette (Ro)', 'Poulette Sauce (Es)', 'Poultry Veloute', 'Printanier Butter (Es)', 'Provençale Sauce (Es)',
+'Paloise (Ro)', "Paloise (Es)",'Parsley Sauce (Es)', 'Peach Sauce (Ro)', 'Perigueux (Ro)', 'Perigueux Sauce (Es)', 'Pignons Sauce (Es)', 'Piquante (Ro)', 'Piquante Sauce (Es)', 'Pistachio Butter (Es)', 'Poivrade (Ro)', 'Poivrade Sauce for Venison (Es)', 'Porto', 'Poulette (Ro)', 'Poulette Sauce (Es)', 'Poultry Veloute', 'Printanier Butter (Es)', 'Provençale Sauce (Es)',
 
   // R
 'Ravigote (Ro)', 'Ravigotte Sauce (Es)', 'Red Colouring Butter (Es)', 'Red Wine Sauce (Es)', 'Regency Sauce (Es)', 'Remoulade (Ro)', 'Remoulade Sauce (Es)', 'Robert (Ro)', 'Robert Sauce (Es)', 'Rouennaise (Ro)', 'Rouennaise Sauce (Es)', 'Rouille', 'Roux Brown', 'Roux Pale', 'Roux White', 'Royal (Ro)',

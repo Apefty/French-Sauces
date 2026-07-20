@@ -1,4 +1,4 @@
-// data/sauces/paloise.js
+// data/sauces/paloise_ro.js
 export default {
   "Paloise (Ro)": {
     nm: "Paloise (Ro)",
