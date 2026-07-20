@@ -323,9 +323,9 @@ body {
 
 .sclr {
     position:absolute;
-    right:14px;
+    right:25px;
     top:50%;
-    transform:translateY(-50%);
+    transform:translateY(50%);
     display:none;
     align-items:center;
     justify-content:center;
