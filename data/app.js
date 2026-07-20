@@ -1,4 +1,4 @@
-/* <!-- WINDOWS VERSION! --> */
+/* <!-- ANDROID VERSION! --> */
 // build 1.4.0 — 2026-07-21
 
 // ── все читається з window.SD (визначено в data.js) ───────────────────
