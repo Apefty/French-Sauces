@@ -1037,6 +1037,23 @@ function pickSort(menuId, mode, applyFn) {
 var sortModeAll = 'az';
 var sortModeSublist = 'az';
 
+function sortAllItems(items, R, mode) {
+  function fld(item, f) { return (item.key && R[item.key]) ? R[item.key][f] : undefined; }
+  function nm(item) {
+    var s = item.key && R[item.key];
+    return (currentLang === 'uk' && s && s.nm_uk) ? s.nm_uk : sName(item.nm);
+  }
+  var arr = items.slice();
+  switch (mode) {
+    case 'za': return arr.sort(function(a,b){ return nm(b).localeCompare(nm(a), ['uk','en'], {sensitivity:'base'}); });
+    case 'time-asc': return arr.sort(function(a,b){ return parseTimeMin(fld(a,'ti')) - parseTimeMin(fld(b,'ti')); });
+    case 'time-desc': return arr.sort(function(a,b){ return parseTimeMin(fld(b,'ti')) - parseTimeMin(fld(a,'ti')); });
+    case 'diff-asc': return arr.sort(function(a,b){ return (DIFF_ORDER[fld(a,'df')]||0) - (DIFF_ORDER[fld(b,'df')]||0); });
+    case 'diff-desc': return arr.sort(function(a,b){ return (DIFF_ORDER[fld(b,'df')]||0) - (DIFF_ORDER[fld(a,'df')]||0); });
+    case 'az': default: return arr.sort(function(a,b){ return nm(a).localeCompare(nm(b), ['uk','en'], {sensitivity:'base'}); });
+  }
+}
+
 function bAll(filter) {
   if (filter !== undefined) allFilter = filter;
   var list = allSaucesList();
@@ -1062,7 +1079,7 @@ function bAll(filter) {
   if (htEl && allScreenActive) {
     htEl.textContent = t('title_all') + ' (' + filtered.length + ')';
   }
-filtered = sortSauceKeys(filtered, R, sortModeAll);
+filtered = sortAllItems(filtered, allR(), sortModeAll);
  albEl.innerHTML = '<div class="lb">' + filtered.map(function(item) {
     var isCustom = item.key && !!custom[item.key];
     return '<div class="all-item">'
