@@ -317,13 +317,15 @@ body {
     height:42px;
     border:2px solid var(--br);
     border-radius:16px;
-    padding:0 14px 0 40px;
-    font-size: calc(16px  * var(--fs-scale));
+    padding:0 14px 0 60px;
+    font-size: calc(18px  * var(--fs-scale));
     background:var(--card);
     color:var(--tx);
     outline:none;
     font-family:"Play", sans-serif;
+    font-weight: 600;
     position:relative;
+    letter-spacing: .05em;
     
 }
 
@@ -358,16 +360,14 @@ body {
     position:absolute;
     right:25px;
     top:50%;
-    transform:translateY(-50%);
+    transform:translateY(-60%);
     display:none;
     align-items:center;
     justify-content:center;
-    width:30px;
-    aspect-ratio: 1;
+    font-size: 48px;
     border-radius:50%;
     background:transparent;
-    color:var(--tx2);
-    font-size:13px;
+    color:var(--em);
     cursor:pointer;
     z-index: 2;
 }
