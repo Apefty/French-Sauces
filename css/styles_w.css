@@ -1,5 +1,5 @@
 /* <!-- WINDOWS VERSION! --> */
-/* build 1.5.2 — 2026-07-21 */
+/* build 1.5.3 — 2026-07-23 */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
@@ -244,6 +244,7 @@ body {
     display: block;
     object-position: center;
     margin: 0 auto;
+    visibility: hidden; /* revealed by sizeSauceHero() only once the correct size is applied — prevents a flash of the unsized full-resolution image */
    }
 
 .h-eye {

@@ -1,5 +1,5 @@
 /* <!-- WINDOWS VERSION! --> */
-// build 1.5.2 — 2026-07-21
+// build 1.5.3 — 2026-07-23
 
 // ── все читається з window.SD (визначено в data.js) ───────────────────
 var SD; // буде присвоєно після завантаження DOM
@@ -350,7 +350,7 @@ function onSearch(v) {
       : '';
 
     return sep +
-      '<div class="sri" onclick="openSauce(\'' + k + '\')">' +
+      '<div class="sri" onclick="openSauce(\'' + jsq(k) + '\')">' +
       '<div class="sri-ico">' + (SD.cico[s.cat] || '🍶') + '</div>' +
       '<div><div class="sri-n">' + x(sName(s.nm)) + '</div>' +
       '<div class="sri-c">' + x(trCat(s.cat)) + ' · ' + x(trVal("tp", s.tp)) + '</div></div>' +
@@ -404,7 +404,7 @@ function bHier() {
           + sub.s.map(function(nm) {
             var rk = fKey(nm);
             var callKey = rk || nm;
-            return '<div class="sli" onclick="openSauce(\'' + callKey + '\')">'
+            return '<div class="sli" onclick="openSauce(\'' + jsq(callKey) + '\')">'
               + '<div class="sld"></div>'
               + '<div class="sln">' + x(sName(nm)) + '</div>'
               + '<span class="slt">›</span>'
@@ -479,7 +479,7 @@ function renderSublist() {
       var s = R[k];
       var nm = s ? sName(s.nm) : k;
       var cat = s ? s.cat : '';
-      return '<div class="li" onclick="openSauce(\'' + x(k) + '\')">'
+      return '<div class="li" onclick="openSauce(\'' + jsq(x(k)) + '\')">'
         + '<div style="flex:1"><div class="li-n">' + x(nm) + '</div>'
         + (cat ? '<div class="li-s">' + x(trCat(cat)) + '</div>' : '') + '</div>'
         + '<span class="li-ar">›</span></div>';
@@ -497,7 +497,7 @@ function bFavs() {
   b.innerHTML = '<div class="list-body">'
     + favs.map(function(k) {
       var s = R[k]; if (!s) return '';
-      return '<div class="li" onclick="openSauce(\'' + k + '\')">'
+      return '<div class="li" onclick="openSauce(\'' + jsq(k) + '\')">'
         + '<div style="flex:1"><div class="li-n">' + x(s.nm) + '</div>'
         + '<div class="li-s">' + x(trCat(s.cat)) + (notes[k] ? ' · 📝' : '') + '</div></div>'
         + '<span class="li-ar">›</span></div>';
@@ -579,7 +579,7 @@ async function openSauce(key, push) {
   if (s.mo && s.mo !== '—' && s.mo !== s.nm) {
     var moKey = fKey(s.mo);
     if (moKey && moKey !== key) {
-      bc += '<span class="bci" onclick="openSauce(\'' + moKey + '\')">' + x(moName(s.mo)) + '</span>'
+      bc += '<span class="bci" onclick="openSauce(\'' + jsq(moKey) + '\')">' + x(moName(s.mo)) + '</span>'
         + '<span class="bcs"><span class="iconify" data-icon="tdesign:chevron-right-double-s" data-width="28px"></span></span>';
     } else {
       bc += '<span class="bci plain">' + x(moName(s.mo)) + '</span><span class="bcs"><span class="iconify" data-icon="tdesign:chevron-right-double-s" data-width="28px"></span></span>';
@@ -619,7 +619,7 @@ async function openSauce(key, push) {
         var dk = fKey(d);
         var callKey = dk || d;
         return '<div class="dtch' + (dk === key ? ' current' : '') + '"'
-          + ' onclick="openSauce(\'' + callKey + '\')">' + x(R[dk] ? tf(R[dk], 'nm') : sName(d)) + '</div>';
+          + ' onclick="openSauce(\'' + jsq(callKey) + '\')">' + x(R[dk] ? tf(R[dk], 'nm') : sName(d)) + '</div>';
       }).join('') + '</div></div>';
   }
 
@@ -630,7 +630,7 @@ async function openSauce(key, push) {
       + s.sm.filter(function(n) { return n !== s.nm; }).map(function(n) {
           var sk = fKey(n);
           var callKey = sk || n;
-          return '<div class="rli" onclick="openSauce(\'' + callKey + '\')">'
+          return '<div class="rli" onclick="openSauce(\'' + jsq(callKey) + '\')">'
             + '<span>' + x(R[sk] ? tf(R[sk], 'nm') : sName(n)) + '</span>'
             + '</div>';
         }).join('') + '</div>';
@@ -671,13 +671,13 @@ async function openSauce(key, push) {
     + '<textarea class="notes-edit-area" id="notes-ta" placeholder="' + t('ph_notes') + '" style="display:none"></textarea>'
     + '<div class="notes-buttons">'
     + '<button class="ab btn-note-edit" id="btn-note-edit" onclick="toggleNote()">' + t('notes_edit') + '</button>'
-    + '<button class="ab btn-note-save" id="btn-note-save" onclick="saveNote(\'' + key + '\')">✓ ' + t('notes_save') + '</button>'
+    + '<button class="ab btn-note-save" id="btn-note-save" onclick="saveNote(\'' + jsq(key) + '\')">✓ ' + t('notes_save') + '</button>'
     + '</div></div>'
 
     + '<div class="ssec"><div class="ar">'
     + '<button class="ab btn-save' + (fav ? ' on' : '') + '" id="btn-fav-card" onclick="toggleFav()">' + (fav ? '<span class="iconify" data-icon="mdi:heart"></span> ' + t('btn_in_favs') : '<span class="iconify" data-icon="mdi:heart-outline"></span> ' + t('btn_add_favs')) + '</button>'
 
-    + (isCust ? '<button class="ab ab-dlete" onclick="doDelete(\'' + key + '\')">🗑</button>' : '')
+    + (isCust ? '<button class="ab ab-dlete" onclick="doDelete(\'' + jsq(key) + '\')">🗑</button>' : '')
     + '</div></div>'
     + '<div style="height:40px"></div>';
 
@@ -926,6 +926,14 @@ function x(s) {
   return String(s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
+// Escapes a value for safe embedding inside a single-quoted JS string
+// literal in an inline onclick="..." attribute (e.g. sauce names/keys
+// containing an apostrophe, like "l'Aurore" or "d'Hotel", would otherwise
+// close the string early and silently break the click handler).
+function jsq(s) {
+  return String(s || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+}
+
 function attrJson(v) {
   return JSON.stringify(v).replace(/"/g, '&quot;');
 }
@@ -1131,13 +1139,13 @@ filtered = sortAllItems(filtered, allR(), sortModeAll);
     var isCustom = item.key && !!custom[item.key];
     return '<div class="all-item">'
       + '<div class="ai-main">'
-      + '<div class="ai-nm" onclick="openSauce(\'' + x(item.key || item.nm) + '\')" style="cursor:pointer;color:var(--b2)">' + x(sName(item.nm)) + '</div>'
+      + '<div class="ai-nm" onclick="openSauce(\'' + jsq(x(item.key || item.nm)) + '\')" style="cursor:pointer;color:var(--b2)">' + x(sName(item.nm)) + '</div>'
       + '<div class="ai-cat">' + x(trCat(item.cat)) + (!item.hasRecipe ? ' · <span style="color:#bbb0a0">no recipe</span>' : '') + '</div>'
       + '</div>'
       + '<div class="ai-btns">'
-      + (item.key ? '<button class="ai-view" onclick="openSauce(\'' + x(item.key) + '\')">View</button>' : '')
+      + (item.key ? '<button class="ai-view" onclick="openSauce(\'' + jsq(x(item.key)) + '\')">View</button>' : '')
       /* + '<button class="ai-edit" onclick="editSauce(\'' + x(item.nm) + '\')">Edit</button>' */
-/*       + (isCustom ? '<button class="ai-del" onclick="doDelete(\'' + x(item.key) + '\')"><span class="iconify" data-icon="mdi:trash" style="font-size:28px"></span></button>' : '') */
+/*       + (isCustom ? '<button class="ai-del" onclick="doDelete(\'' + jsq(x(item.key)) + '\')"><span class="iconify" data-icon="mdi:trash" style="font-size:28px"></span></button>' : '') */
       + '</div>'
       + '</div>';
   }).join('') + '</div>';
@@ -1264,11 +1272,13 @@ function sizeSauceHero(img) {
     img.style.width = '100%';
     img.style.height = maxH + 'px';
     img.style.objectFit = 'cover';
+    img.style.visibility = 'visible';
     return;
   }
 
   img.style.width  = img.naturalWidth  * scale + 'px';
   img.style.height = finalH + 'px';
+  img.style.visibility = 'visible';
 }
 
 

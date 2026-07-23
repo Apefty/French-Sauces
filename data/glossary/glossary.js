@@ -1,4 +1,4 @@
-// build 1.5.2 — 2026-07-21
+// build 1.5.3 — 2026-07-23
 // Glossary data — culinary terms and definitions (bilingual EN/UK, UK fields optional).
 // Each entry: { term_en, term_uk, defs: [ { def_en, def_uk }, ... ] }
 // tf()-style fallback: if term_uk / def_uk is missing, UI shows the _en value.
