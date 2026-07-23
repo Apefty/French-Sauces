@@ -30,7 +30,7 @@ export default {
     bs: "Butter & horseradish",
     df: "Medium",
     ti: "35 min",
-    sm: ["Horse Radish Sauce (Es)","Albert (Ro)","Allemande Sauce (Es)","Poulette Sauce (Es)","Supreme Sauce (Es)","Ivory Sauce (Es)" ],
+    sm: ["Horse-Radish Sauce (Es)","Allemande Sauce (Es)","Poulette Sauce (Es)","Supreme Sauce (Es)","Ivory Sauce (Es)" ],
     ti_uk: "35 хв",
     bs_uk: "Масло та хрін",
     photo: "./image/albert.jpg"
