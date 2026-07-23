@@ -1243,6 +1243,7 @@ function sizeSauceHero(img) {
   var container = img.parentElement;
   var cw = container.clientWidth;
   var ch = 300;
+  var maxH = 400; // жорстка стеля висоти — якщо розтяг під ширину контейнера її перевищить, кадруємо (crop) замість розтягування
 
   var scaleH = ch / img.naturalHeight;
   var scaledWidth = img.naturalWidth * scaleH;
@@ -1256,8 +1257,18 @@ function sizeSauceHero(img) {
     scale = scaleH;
   }
 
+  var finalH = img.naturalHeight * scale;
+  if (finalH > maxH) {
+    // розтяг під ширину дав би вищий за maxH результат — фіксуємо висоту на maxH
+    // і кадруємо фото по ширині (object-fit: cover), замість того щоб показувати його повністю
+    img.style.width = '100%';
+    img.style.height = maxH + 'px';
+    img.style.objectFit = 'cover';
+    return;
+  }
+
   img.style.width  = img.naturalWidth  * scale + 'px';
-  img.style.height = img.naturalHeight * scale + 'px';
+  img.style.height = finalH + 'px';
 }
 
 
