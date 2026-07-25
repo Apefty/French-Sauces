@@ -1,5 +1,5 @@
 /* <!-- WINDOWS VERSION! --> */
-// build 1.5.3 — 2026-07-23
+// build 1.6.0 — 2026-07-25
 
 // ── все читається з window.SD (визначено в data.js) ───────────────────
 var SD; // буде присвоєно після завантаження DOM
@@ -41,6 +41,112 @@ function saveUserData() {
   localStorage.setItem('nts', JSON.stringify(userData.nts));
   localStorage.setItem('cst', JSON.stringify(userData.cst));
   localStorage.setItem('fs', String(userData.fs));
+}
+
+// ── Backup: export/import favorites + notes ────────────────────────────
+// Format: { app, exportVersion, exportedAt, favorites: [...], notes: {...} }
+// Import MERGES into current data — it never wipes existing favorites/notes.
+// New favorites are added (no duplicates); imported notes overwrite a note
+// for the same sauce key if one already exists (backup assumed newer).
+function exportUserData() {
+  var payload = {
+    app: 'Les Grandes Sauces',
+    exportVersion: 1,
+    exportedAt: new Date().toISOString(),
+    favorites: favs,
+    notes: notes
+  };
+  var json = JSON.stringify(payload, null, 2);
+  var filename = 'les-grandes-sauces-backup-' + new Date().toISOString().slice(0, 10) + '.json';
+
+  if (isNeutralino) {
+    Neutralino.os.showSaveDialog(t('about_export_notes'), {
+      defaultPath: filename,
+      filters: [{ name: 'JSON', extensions: ['json'] }]
+    })
+      .then(function (path) {
+        if (!path) return null;
+        return Neutralino.filesystem.writeFile(path, json).then(function () { return true; });
+      })
+      .then(function (saved) { if (saved) toast(t('about_export_success')); })
+      .catch(function (e) { console.error('Export failed:', e); toast(t('about_import_error')); });
+    return;
+  }
+
+  var blob = new Blob([json], { type: 'application/json' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  toast(t('about_export_success'));
+}
+
+function importUserData() {
+  if (isNeutralino) {
+    Neutralino.os.showOpenDialog(t('about_import_notes'), {
+      filters: [{ name: 'JSON', extensions: ['json'] }]
+    })
+      .then(function (paths) {
+        if (!paths || !paths.length) return null;
+        return Neutralino.filesystem.readFile(paths[0]);
+      })
+      .then(function (text) { if (text !== null && text !== undefined) applyImportedBackup(text); })
+      .catch(function (e) { console.error('Import failed:', e); toast(t('about_import_error')); });
+    return;
+  }
+  var input = document.getElementById('import-file-input');
+  if (input) input.click();
+}
+
+function handleImportFileChange(evt) {
+  var file = evt.target.files && evt.target.files[0];
+  evt.target.value = ''; // allow re-selecting the same file again later
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function () { applyImportedBackup(reader.result); };
+  reader.onerror = function () { toast(t('about_import_error')); };
+  reader.readAsText(file);
+}
+
+function applyImportedBackup(text) {
+  var data;
+  try {
+    data = JSON.parse(text);
+  } catch (e) {
+    toast(t('about_import_error'));
+    return;
+  }
+  if (!data || data.app !== 'Les Grandes Sauces' || typeof data.exportVersion !== 'number') {
+    toast(t('about_import_error'));
+    return;
+  }
+
+  var importedFavs = Array.isArray(data.favorites) ? data.favorites : [];
+  var importedNotes = (data.notes && typeof data.notes === 'object') ? data.notes : {};
+
+  importedFavs.forEach(function (key) {
+    if (favs.indexOf(key) === -1) favs.push(key);
+  });
+  Object.keys(importedNotes).forEach(function (key) {
+    notes[key] = importedNotes[key];
+  });
+
+  userData.fav = favs;
+  userData.nts = notes;
+  saveUserData();
+
+  toast(t('about_import_success'));
+
+  var active = document.querySelector('.scr.active, .screen.active');
+  if (active) {
+    var id = active.id.replace('s-', '');
+    if (id === 'favs') bFavs();
+    else if (id === 'sauce' && cur) openSauce(cur, false);
+  }
 }
 
 
@@ -672,6 +778,8 @@ async function openSauce(key, push) {
     + '<div class="notes-buttons">'
     + '<button class="ab btn-note-edit" id="btn-note-edit" onclick="toggleNote()">' + t('notes_edit') + '</button>'
     + '<button class="ab btn-note-save" id="btn-note-save" onclick="saveNote(\'' + jsq(key) + '\')">✓ ' + t('notes_save') + '</button>'
+    + '<button class="ab btn-note-export" onclick="exportUserData()">' + x(t('about_export_notes')) + '</button>'
+    + '<button class="ab btn-note-import" onclick="importUserData()">' + x(t('about_import_notes')) + '</button>'
     + '</div></div>'
 
     + '<div class="ssec"><div class="ar">'

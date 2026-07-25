@@ -1,5 +1,5 @@
 /* <!-- WINDOWS VERSION! --> */
-/* build 1.5.3 — 2026-07-23 */
+/* build 1.6.0 — 2026-07-25 */
 
 // data/data.js
 // Global metadata only — no sauce recipes here.

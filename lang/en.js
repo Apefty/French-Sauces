@@ -13,7 +13,7 @@ window.LANG_EN = {
   hero_sub: "Complete catalog of Escoffier, Bocuse, Robuchon sauces",
 
   // About
-  about_version: "Version 1.5.3",
+  about_version: "Version 1.6.0",
   about_desc: "A reference catalog of classical French sauces — hierarchy, ingredients, and technique. \n\nAugust Escoffier: A Guide to Modern Cookery (1907),\n\nJoel Robuchon: Larousse Gastronomique (1996),\n\nPaul Bocuse: Bocuse Institut Gastronomique (2015)",
   about_credits: "Built for personal culinary reference only. \nNot for distribution or commercial use.",
   about_check_update: "Check for updates",
@@ -22,6 +22,12 @@ window.LANG_EN = {
   about_update_downloading: "Update found, downloading...",
   about_update_applied: "Update installed — restarting",
   about_update_error: "Could not check for updates",
+
+  about_export_notes: "Export notes & favorites",
+  about_import_notes: "Import notes & favorites",
+  about_export_success: "Backup saved",
+  about_import_success: "Backup imported",
+  about_import_error: "Import failed — not a valid backup file",
 
   // Search
   search_placeholder: "Search sauces, ingredients",
