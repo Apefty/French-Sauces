@@ -1,5 +1,5 @@
 /* <!-- WINDOWS VERSION! --> */
-// build 1.6.1 — 2026-07-26
+// build 1.6.2 — 2026-07-26
 
 // ── все читається з window.SD (визначено в data.js) ───────────────────
 var SD; // буде присвоєно після завантаження DOM
@@ -751,6 +751,7 @@ async function openSauce(key, push) {
     + '<div class="stit">' + x(nm) + '</div>'
     + '<div class="stit-fr-row">'
     + (s.fr && s.fr !== nm ? '<div class="stit-fr">' + x(s.fr) + '</div>' : '<div class="stit-fr"></div>')
+    + '<button class="btn-print btn-share" onclick="shareSauce()" title="' + x(t('btn_share')) + '"><span class="iconify" data-icon="mdi:share-variant-outline"></span></button>'
     + '<button class="btn-print" onclick="printSauce()" title="' + x(t('btn_print')) + '"><span class="iconify" data-icon="mdi:printer-outline"></span></button>'
     + '</div>'
     + '</div></div>'
@@ -865,6 +866,90 @@ function toggleFav() {
 // ── PRINT ────────────────────────────────────────────────────────────
 function printSauce() {
   window.print();
+}
+
+// ── SHARE (PDF export via html2canvas + jsPDF) ──────────────────────
+// Tries the native Web Share API with a PDF file attached (works well on
+// Android — opens Gmail/WhatsApp/Telegram/etc). If Web Share isn't
+// available or the user's environment rejects file-sharing, falls back to
+// a plain save: the Neutralino native "Save As" dialog on Windows, or a
+// browser download otherwise.
+function shareSauce() {
+  if (!cur || !R[cur]) return;
+  var s = R[cur];
+  var nm = tf(s, 'nm') || sName(s.nm) || cur;
+  var target = document.getElementById('sab');
+  if (!target || !window.html2canvas || !window.jspdf) { toast(t('share_error')); return; }
+
+  document.body.classList.add('pdf-capturing');
+  window.html2canvas(target, { backgroundColor: '#ffffff', scale: 2, useCORS: true })
+    .then(function (canvas) {
+      document.body.classList.remove('pdf-capturing');
+      var jsPDF = window.jspdf.jsPDF;
+      var pageWidth = 595.28; // A4 width in pt
+      var pageHeight = pageWidth * (canvas.height / canvas.width);
+      var pdf = new jsPDF({ unit: 'pt', format: [pageWidth, pageHeight] });
+      var imgData = canvas.toDataURL('image/jpeg', 0.92);
+      pdf.addImage(imgData, 'JPEG', 0, 0, pageWidth, pageHeight);
+      deliverPdf(pdf, pdfFilename(nm), nm);
+    })
+    .catch(function (e) {
+      document.body.classList.remove('pdf-capturing');
+      console.error('PDF export failed:', e);
+      toast(t('share_error'));
+    });
+}
+
+function pdfFilename(name) {
+  var safe = String(name).replace(/[\\/:*?"<>|]/g, '').trim().slice(0, 80);
+  return (safe || 'sauce') + '.pdf';
+}
+
+function deliverPdf(pdf, filename, title) {
+  var blob = pdf.output('blob');
+
+  function saveViaNeutralino() {
+    Neutralino.os.showSaveDialog(t('btn_share'), {
+      defaultPath: filename,
+      filters: [{ name: 'PDF', extensions: ['pdf'] }]
+    })
+      .then(function (path) {
+        if (!path) return null;
+        return blob.arrayBuffer().then(function (buf) {
+          return Neutralino.filesystem.writeBinaryFile(path, buf);
+        }).then(function () { return true; });
+      })
+      .then(function (saved) { if (saved) toast(t('share_saved')); })
+      .catch(function (e) { console.error('Save PDF failed:', e); toast(t('share_error')); });
+  }
+
+  function downloadBlob() {
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toast(t('share_saved'));
+  }
+
+  var file = null;
+  try { file = new File([blob], filename, { type: 'application/pdf' }); } catch (e) { /* File API missing */ }
+
+  if (file && navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+    navigator.share({ files: [file], title: title })
+      .catch(function (e) {
+        if (e && e.name === 'AbortError') return; // користувач сам скасував
+        console.error('Web Share failed:', e);
+        if (isNeutralino) saveViaNeutralino(); else downloadBlob();
+      });
+    return;
+  }
+
+  if (isNeutralino) saveViaNeutralino();
+  else downloadBlob();
 }
 
 // ── DELETION ─────────────────────────────────────────────────────────
