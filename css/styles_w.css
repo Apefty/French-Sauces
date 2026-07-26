@@ -1045,14 +1045,6 @@ font-family: "Play", sans-serif;
 
 .stit-fr-row .btn-print + .btn-print { margin-left: -2px; }
 
-@media print {
-  .hdr, .bnav, .notes-buttons, .btn-print,
-  .ssec-actions, .sauce-hero-body .cbadge {
-    display:none !important;
-  }
-  #app, #s-sauce { overflow:visible !important; height:auto !important; }
-}
-
 .pdf-capturing .hdr, .pdf-capturing .bnav, .pdf-capturing .notes-buttons, .pdf-capturing .btn-print,
 .pdf-capturing .ssec-actions, .pdf-capturing .sauce-hero-body .cbadge {
   display:none !important;
