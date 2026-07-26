@@ -1,5 +1,5 @@
 /* <!-- WINDOWS VERSION! --> */
-// build 1.6.0 — 2026-07-25
+// build 1.6.1 — 2026-07-26
 
 // ── все читається з window.SD (визначено в data.js) ───────────────────
 var SD; // буде присвоєно після завантаження DOM
@@ -749,7 +749,10 @@ async function openSauce(key, push) {
 
     + (isCust ? '<span class="cbadge">custom</span>' : '') + '</div>'
     + '<div class="stit">' + x(nm) + '</div>'
-    + (s.fr && s.fr !== nm ? '<div class="stit-fr">' + x(s.fr) + '</div>' : '')
+    + '<div class="stit-fr-row">'
+    + (s.fr && s.fr !== nm ? '<div class="stit-fr">' + x(s.fr) + '</div>' : '<div class="stit-fr"></div>')
+    + '<button class="btn-print" onclick="printSauce()" title="' + x(t('btn_print')) + '"><span class="iconify" data-icon="mdi:printer-outline"></span></button>'
+    + '</div>'
     + '</div></div>'
 
     + '<div class="ssec"><div class="ssec-title">' + t("sec_classification") + '</div>'
@@ -782,7 +785,7 @@ async function openSauce(key, push) {
     + '<button class="ab btn-note-import" onclick="importUserData()">' + x(t('about_import_notes')) + '</button>'
     + '</div></div>'
 
-    + '<div class="ssec"><div class="ar">'
+    + '<div class="ssec ssec-actions"><div class="ar">'
     + '<button class="ab btn-save' + (fav ? ' on' : '') + '" id="btn-fav-card" onclick="toggleFav()">' + (fav ? '<span class="iconify" data-icon="mdi:heart"></span> ' + t('btn_in_favs') : '<span class="iconify" data-icon="mdi:heart-outline"></span> ' + t('btn_add_favs')) + '</button>'
 
     + (isCust ? '<button class="ab ab-dlete" onclick="doDelete(\'' + jsq(key) + '\')">🗑</button>' : '')
@@ -857,6 +860,11 @@ function toggleFav() {
   updFavIco();
   var btn = document.getElementById('btn-fav-card');
   if (btn) { var f = favs.indexOf(cur) !== -1; btn.className = 'ab btn-save' + (f ? ' on' : ''); btn.innerHTML = f ? '<span class="iconify" data-icon="mdi:heart"></span> ' + t('btn_in_favs') : '<span class="iconify" data-icon="mdi:heart-outline"></span> ' + t('btn_add_favs'); }
+}
+
+// ── PRINT ────────────────────────────────────────────────────────────
+function printSauce() {
+  window.print();
 }
 
 // ── DELETION ─────────────────────────────────────────────────────────

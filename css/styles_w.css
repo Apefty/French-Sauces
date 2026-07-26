@@ -1012,9 +1012,43 @@ font-family: "Play", sans-serif;
     font-style:italic;
     font-weight:700;
     color:var(--tx3);
-    margin-bottom: 20px;
-    padding-left: 25px;
+    margin-bottom: 0;
+    padding-left: 0;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+.stit-fr-row {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding-left:25px;
+    padding-right:20px;
+    margin-bottom:20px;
+}
+.btn-print {
+    flex:0 0 auto;
+    width:34px;
+    height:34px;
+    border:1.5px solid var(--br);
+    border-radius:9px;
+    background:transparent;
+    color:var(--tx2);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    font-size:18px;
+}
+.btn-print:hover { border-color:var(--em); }
+.btn-print:active { opacity:.75; }
 
+@media print {
+  .hdr, .bnav, .notes-buttons, .btn-print,
+  .ssec-actions, .sauce-hero-body .cbadge {
+    display:none !important;
+  }
+  #app, #s-sauce { overflow:visible !important; height:auto !important; }
 }
 .sfr {
     font-size: calc(16px  * var(--fs-scale));

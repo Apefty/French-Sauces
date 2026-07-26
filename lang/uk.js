@@ -13,7 +13,7 @@ window.LANG_UK = {
   hero_sub: "Повний каталог соусів Ескоф'є, Бокюза, Робюшона",
 
   // Про застосунок
-  about_version: "Версія 1.6.0",
+  about_version: "Версія 1.6.1",
   about_desc: "Довідник класичних французьких соусів — ієрархія, інгредієнти й техніка. \n\nAugust Escoffier: A Guide to Modern Cookery (1907),\n\nJoel Robuchon: Larousse Gastronomique (1996),\n\nPaul Bocuse: Bocuse Institut Gastronomique (2015)",
   about_credits: "Створено як особистий кулінарний довідник. Не для розповсюдження чи комерційного використання.",
   about_check_update: "Перевірити оновлення",
@@ -107,6 +107,7 @@ window.LANG_UK = {
   btn_edit: "Редагувати",
   btn_add_favs: "Додати до збережених",
 btn_in_favs: "У збережених",
+  btn_print: "Друк",
 
   // All sauces list
   no_recipe: "немає рецепту",
