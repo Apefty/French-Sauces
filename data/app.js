@@ -875,7 +875,9 @@ function printSauce() {
 // a plain save: the Neutralino native "Save As" dialog on Windows, or a
 // browser download otherwise.
 function shareSauce() {
-  if (!cur || !R[cur]) return;
+  if (!cur) return;
+  var R = allR();
+  if (!R[cur]) return;
   var s = R[cur];
   var nm = tf(s, 'nm') || sName(s.nm) || cur;
   var target = document.getElementById('sab');
