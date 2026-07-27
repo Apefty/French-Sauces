@@ -1,5 +1,5 @@
 /* <!-- WINDOWS VERSION! --> */
-// build 1.6.5 — 2026-07-26
+// build 1.6.6 — 2026-07-26
 
 // ── все читається з window.SD (визначено в data.js) ───────────────────
 var SD; // буде присвоєно після завантаження DOM
@@ -887,13 +887,15 @@ function shareSauce() {
   // 100vh-предком). html2canvas за замовчуванням захоплює лише видиму,
   // непрокручену частину такого елемента. Тимчасово знімаємо обмеження
   // висоти й скрол, щоб захопити ВЕСЬ вміст сторінки, потім повертаємо як було.
+  var capturedWidth = target.clientWidth;
   var prevInlineStyle = target.getAttribute('style') || '';
   var prevScrollTop = target.scrollTop;
   target.style.height = 'auto';
   target.style.maxHeight = 'none';
   target.style.overflow = 'visible';
   target.style.overflowY = 'visible';
-  target.scrollTop = 0;
+  target.style.width = capturedWidth + 'px'; // фіксуємо ширину — інакше html2canvas
+  target.scrollTop = 0;                      // може порахувати іншу ширину "вікна"
   void target.offsetHeight; // форсуємо reflow, щоб scrollHeight нижче був актуальним
 
   function restore() {
@@ -907,6 +909,8 @@ function shareSauce() {
     backgroundColor: '#ffffff',
     scale: 2,
     useCORS: true,
+    width: capturedWidth,
+    windowWidth: capturedWidth,
     height: target.scrollHeight,
     windowHeight: target.scrollHeight
   })
