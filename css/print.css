@@ -8,9 +8,11 @@
    ───────────────────────────────────────────────────────────────── */
 
 /* Що ховаємо на друку — шапка, нижня навігація, кнопки нотаток,
-   кнопки обраного/видалення/друку/поділитись, бейдж "custom" */
+   кнопки обраного/видалення/друку/поділитись, бейдж "custom",
+   блоки "Деривативи"/"Схожі соуси" та порожні нотатки */
 .hdr, .bnav, .notes-buttons, .btn-print,
-.ssec-actions, .sauce-hero-body .cbadge {
+.ssec-actions, .sauce-hero-body .cbadge,
+.ssec-derivatives, .ssec-similar, .ssec-notes-empty {
   display: none !important;
 }
 

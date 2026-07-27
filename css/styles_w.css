@@ -1047,7 +1047,8 @@ font-family: "Play", sans-serif;
 .stit-fr-row .btn-print + .btn-print { margin-left: -2px; }
 
 .pdf-capturing .hdr, .pdf-capturing .bnav, .pdf-capturing .notes-buttons, .pdf-capturing .btn-print,
-.pdf-capturing .ssec-actions, .pdf-capturing .sauce-hero-body .cbadge {
+.pdf-capturing .ssec-actions, .pdf-capturing .sauce-hero-body .cbadge,
+.pdf-capturing .ssec-derivatives, .pdf-capturing .ssec-similar, .pdf-capturing .ssec-notes-empty {
   display:none !important;
 }
 .sfr {
