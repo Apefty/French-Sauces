@@ -1,5 +1,5 @@
 /* <!-- WINDOWS VERSION! --> */
-// build 1.6.4 — 2026-07-26
+// build 1.6.6 — 2026-07-26
 
 // ── все читається з window.SD (визначено в data.js) ───────────────────
 var SD; // буде присвоєно після завантаження DOM
@@ -773,10 +773,10 @@ async function openSauce(key, push) {
     + (ingr ? '<div class="ssec"><div class="ssec-title">' + t('sec_ingredients') + '</div>' + ingr + '</div>' : '')
     + (stps ? '<div class="ssec"><div class="ssec-title">' + t('sec_technique') + '</div>' + stps + '</div>' : '')
     + (rc ? '<div class="ssec"><div class="ssec-title">' + t('sec_recipe') + '</div><div class="rb"><div class="rt">' + x(rc) + '</div></div></div>' : '')
-    + (deriv ? '<div class="ssec"><div class="ssec-title">' + t('sec_derivatives') + '</div>' + deriv + '</div>' : '')
-    + (sim ? '<div class="ssec"><div class="ssec-title">' + t('sec_similar') + '</div>' + sim + '</div>' : '')
+    + (deriv ? '<div class="ssec ssec-derivatives"><div class="ssec-title">' + t('sec_derivatives') + '</div>' + deriv + '</div>' : '')
+    + (sim ? '<div class="ssec ssec-similar"><div class="ssec-title">' + t('sec_similar') + '</div>' + sim + '</div>' : '')
 
-    + '<div class="ssec"><div class="ssec-title">' + t('sec_notes') + '</div>'
+    + '<div class="ssec ssec-notes' + (nt ? '' : ' ssec-notes-empty') + '"><div class="ssec-title">' + t('sec_notes') + '</div>'
     + '<div class="nview' + (nt ? '' : ' empty') + '" id="notes-view">' + (nt ? x(nt) : t('notes_empty')) + '</div>'
     + '<textarea class="notes-edit-area" id="notes-ta" placeholder="' + t('ph_notes') + '" style="display:none"></textarea>'
     + '<div class="notes-buttons">'
@@ -887,13 +887,15 @@ function shareSauce() {
   // 100vh-предком). html2canvas за замовчуванням захоплює лише видиму,
   // непрокручену частину такого елемента. Тимчасово знімаємо обмеження
   // висоти й скрол, щоб захопити ВЕСЬ вміст сторінки, потім повертаємо як було.
+  var capturedWidth = target.clientWidth;
   var prevInlineStyle = target.getAttribute('style') || '';
   var prevScrollTop = target.scrollTop;
   target.style.height = 'auto';
   target.style.maxHeight = 'none';
   target.style.overflow = 'visible';
   target.style.overflowY = 'visible';
-  target.scrollTop = 0;
+  target.style.width = capturedWidth + 'px'; // фіксуємо ширину — інакше html2canvas
+  target.scrollTop = 0;                      // може порахувати іншу ширину "вікна"
   void target.offsetHeight; // форсуємо reflow, щоб scrollHeight нижче був актуальним
 
   function restore() {
@@ -907,6 +909,8 @@ function shareSauce() {
     backgroundColor: '#ffffff',
     scale: 2,
     useCORS: true,
+    width: capturedWidth,
+    windowWidth: capturedWidth,
     height: target.scrollHeight,
     windowHeight: target.scrollHeight
   })
