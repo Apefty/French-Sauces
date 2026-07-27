@@ -1038,7 +1038,7 @@ font-family: "Play", sans-serif;
     align-items:center;
     justify-content:center;
     cursor:pointer;
-    font-size:18px;
+    font-size:26px;
 }
 .btn-print:hover { border-color:var(--em); }
 .btn-print:active { opacity:.75; }
