@@ -1,5 +1,5 @@
 /* <!-- WINDOWS VERSION! --> */
-// build 1.6.3 — 2026-07-26
+// build 1.6.4 — 2026-07-26
 
 // ── все читається з window.SD (визначено в data.js) ───────────────────
 var SD; // буде присвоєно після завантаження DOM
@@ -883,10 +883,35 @@ function shareSauce() {
   var target = document.getElementById('sab');
   if (!target || !window.html2canvas || !window.jspdf) { toast(t('share_error')); return; }
 
+  // #sab (.sb) — внутрішній скрол-контейнер (overflow-y:auto, висота обмежена
+  // 100vh-предком). html2canvas за замовчуванням захоплює лише видиму,
+  // непрокручену частину такого елемента. Тимчасово знімаємо обмеження
+  // висоти й скрол, щоб захопити ВЕСЬ вміст сторінки, потім повертаємо як було.
+  var prevInlineStyle = target.getAttribute('style') || '';
+  var prevScrollTop = target.scrollTop;
+  target.style.height = 'auto';
+  target.style.maxHeight = 'none';
+  target.style.overflow = 'visible';
+  target.style.overflowY = 'visible';
+  target.scrollTop = 0;
+  void target.offsetHeight; // форсуємо reflow, щоб scrollHeight нижче був актуальним
+
+  function restore() {
+    document.body.classList.remove('pdf-capturing');
+    target.setAttribute('style', prevInlineStyle);
+    target.scrollTop = prevScrollTop;
+  }
+
   document.body.classList.add('pdf-capturing');
-  window.html2canvas(target, { backgroundColor: '#ffffff', scale: 2, useCORS: true })
+  window.html2canvas(target, {
+    backgroundColor: '#ffffff',
+    scale: 2,
+    useCORS: true,
+    height: target.scrollHeight,
+    windowHeight: target.scrollHeight
+  })
     .then(function (canvas) {
-      document.body.classList.remove('pdf-capturing');
+      restore();
       var jsPDF = window.jspdf.jsPDF;
       var pageWidth = 595.28; // A4 width in pt
       var pageHeight = pageWidth * (canvas.height / canvas.width);
@@ -896,7 +921,7 @@ function shareSauce() {
       deliverPdf(pdf, pdfFilename(nm), nm);
     })
     .catch(function (e) {
-      document.body.classList.remove('pdf-capturing');
+      restore();
       console.error('PDF export failed:', e);
       toast(t('share_error'));
     });
