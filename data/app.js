@@ -1,5 +1,5 @@
 /* <!-- WINDOWS VERSION! --> */
-// build 1.6.4 — 2026-07-26
+// build 1.6.5 — 2026-07-26
 
 // ── все читається з window.SD (визначено в data.js) ───────────────────
 var SD; // буде присвоєно після завантаження DOM
@@ -773,10 +773,10 @@ async function openSauce(key, push) {
     + (ingr ? '<div class="ssec"><div class="ssec-title">' + t('sec_ingredients') + '</div>' + ingr + '</div>' : '')
     + (stps ? '<div class="ssec"><div class="ssec-title">' + t('sec_technique') + '</div>' + stps + '</div>' : '')
     + (rc ? '<div class="ssec"><div class="ssec-title">' + t('sec_recipe') + '</div><div class="rb"><div class="rt">' + x(rc) + '</div></div></div>' : '')
-    + (deriv ? '<div class="ssec"><div class="ssec-title">' + t('sec_derivatives') + '</div>' + deriv + '</div>' : '')
-    + (sim ? '<div class="ssec"><div class="ssec-title">' + t('sec_similar') + '</div>' + sim + '</div>' : '')
+    + (deriv ? '<div class="ssec ssec-derivatives"><div class="ssec-title">' + t('sec_derivatives') + '</div>' + deriv + '</div>' : '')
+    + (sim ? '<div class="ssec ssec-similar"><div class="ssec-title">' + t('sec_similar') + '</div>' + sim + '</div>' : '')
 
-    + '<div class="ssec"><div class="ssec-title">' + t('sec_notes') + '</div>'
+    + '<div class="ssec ssec-notes' + (nt ? '' : ' ssec-notes-empty') + '"><div class="ssec-title">' + t('sec_notes') + '</div>'
     + '<div class="nview' + (nt ? '' : ' empty') + '" id="notes-view">' + (nt ? x(nt) : t('notes_empty')) + '</div>'
     + '<textarea class="notes-edit-area" id="notes-ta" placeholder="' + t('ph_notes') + '" style="display:none"></textarea>'
     + '<div class="notes-buttons">'
