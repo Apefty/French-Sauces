@@ -775,7 +775,7 @@ async function openSauce(key, push) {
     + (stps ? '<div class="ssec"><div class="ssec-title">' + t('sec_technique') + '</div>' + stps + '</div>' : '')
     + (rc ? '<div class="ssec"><div class="ssec-title">' + t('sec_recipe') + '</div><div class="rb"><div class="rt">' + x(rc) + '</div></div></div>' : '')
     + (ytId ? '<div class="ssec ssec-video"><div class="ssec-title">' + t('sec_video') + '</div>'
-      + '<div class="yt-wrap"><iframe class="yt-frame" src="https://www.youtube-nocookie.com/embed/' + x(ytId) + '" title="' + x(nm) + '" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div></div>' : '')
+      + '<div class="yt-wrap"><iframe class="yt-frame" src="https://www.youtube-nocookie.com/embed/' + x(ytId) + '?rel=0" title="' + x(nm) + '" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div></div>' : '')
     + (deriv ? '<div class="ssec ssec-derivatives"><div class="ssec-title">' + t('sec_derivatives') + '</div>' + deriv + '</div>' : '')
     + (sim ? '<div class="ssec ssec-similar"><div class="ssec-title">' + t('sec_similar') + '</div>' + sim + '</div>' : '')
 
