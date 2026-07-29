@@ -44,6 +44,7 @@ export default {
     dv: [],
     sm: ["Aioli Sauce (Es)","Mayonnaise (Ro)","Mayonnaise Sauce (Es)","Remoulade (Ro)","Remoulade Sauce (Es)","Tartar (Ro)","Ravigotte Sauce (Es)","Rouille"],
     cl: "Robuchon",
-    photo: "./image/aioli.jpg"
+    photo: "./image/aioli.jpg",
+    yt: "https://youtu.be/Z-UnujQy60I"
   }
 };

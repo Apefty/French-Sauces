@@ -44,7 +44,6 @@ export default {
     dv: [],
     sm: ["Andalouse","Mousseline","Cocktail","Rouille","Ravigote", "Remoulade", "Tartar", "Verte","Vincent Sauce"],
     cl: "Escoffier",
-    photo: "./image/aioli.jpg",
-    yt: "https://youtu.be/Z-UnujQy60I"
+    photo: "./image/aioli.jpg"
   }
 };
