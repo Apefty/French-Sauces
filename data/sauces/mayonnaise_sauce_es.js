@@ -33,6 +33,7 @@ export default {
     sm: ["Mayonnaise (Ro)","Aioli Sauce (Es)","Aioli (Ro)","Remoulade Sauce (Es)","Remoulade (Ro)","Tartar (Ro)"],
     ti_uk: "20 хв",
     bs_uk: "Олія та яєчний жовток",
-    photo: "./image/mayonnaise_sauce_es.jpg"
+    photo: "./image/mayonnaise_sauce_es.jpg",
+    yt: "https://youtu.be/uf-dDIWdqao"
   }
 };
