@@ -1048,7 +1048,8 @@ font-family: "Play", sans-serif;
 
 .pdf-capturing .hdr, .pdf-capturing .bnav, .pdf-capturing .notes-buttons, .pdf-capturing .btn-print,
 .pdf-capturing .ssec-actions, .pdf-capturing .sauce-hero-body .cbadge,
-.pdf-capturing .ssec-derivatives, .pdf-capturing .ssec-similar, .pdf-capturing .ssec-notes-empty {
+.pdf-capturing .ssec-derivatives, .pdf-capturing .ssec-similar, .pdf-capturing .ssec-notes-empty,
+.pdf-capturing .ssec-video {
   display:none !important;
 }
 .sfr {
@@ -1272,6 +1273,23 @@ font-family: "Play", sans-serif;
     border-radius:10px;
     padding:13px;
     border:1px solid var(--br);
+}
+
+.yt-wrap {
+    position:relative;
+    width:100%;
+    padding-top:56.25%; /* 16:9 */
+    border-radius:10px;
+    overflow:hidden;
+    border:1px solid var(--br);
+    background:var(--bg2);
+}
+.yt-frame {
+    position:absolute;
+    top:0; left:0;
+    width:100%;
+    height:100%;
+    border:0;
 }
 
 .rt {

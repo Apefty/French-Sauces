@@ -12,7 +12,8 @@
    блоки "Деривативи"/"Схожі соуси" та порожні нотатки */
 .hdr, .bnav, .notes-buttons, .btn-print,
 .ssec-actions, .sauce-hero-body .cbadge,
-.ssec-derivatives, .ssec-similar, .ssec-notes-empty {
+.ssec-derivatives, .ssec-similar, .ssec-notes-empty,
+.ssec-video {
   display: none !important;
 }
 

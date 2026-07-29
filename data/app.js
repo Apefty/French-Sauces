@@ -1,5 +1,5 @@
 /* <!-- WINDOWS VERSION! --> */
-// build 1.6.7 — 2026-07-26
+// build 1.6.9 — 2026-07-29
 
 // ── все читається з window.SD (визначено в data.js) ───────────────────
 var SD; // буде присвоєно після завантаження DOM
@@ -679,6 +679,7 @@ async function openSauce(key, push) {
   var ig = tf(s, 'ig') || {};
   var st = tf(s, 'st') || [];
   var rc = tf(s, 'rc') || '';
+  var ytId = extractYouTubeId(s.yt);
 
   // Breadcrumbs
   var bc = '';
@@ -773,6 +774,8 @@ async function openSauce(key, push) {
     + (ingr ? '<div class="ssec"><div class="ssec-title">' + t('sec_ingredients') + '</div>' + ingr + '</div>' : '')
     + (stps ? '<div class="ssec"><div class="ssec-title">' + t('sec_technique') + '</div>' + stps + '</div>' : '')
     + (rc ? '<div class="ssec"><div class="ssec-title">' + t('sec_recipe') + '</div><div class="rb"><div class="rt">' + x(rc) + '</div></div></div>' : '')
+    + (ytId ? '<div class="ssec ssec-video"><div class="ssec-title">' + t('sec_video') + '</div>'
+      + '<div class="yt-wrap"><iframe class="yt-frame" src="https://www.youtube-nocookie.com/embed/' + x(ytId) + '" title="' + x(nm) + '" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div></div>' : '')
     + (deriv ? '<div class="ssec ssec-derivatives"><div class="ssec-title">' + t('sec_derivatives') + '</div>' + deriv + '</div>' : '')
     + (sim ? '<div class="ssec ssec-similar"><div class="ssec-title">' + t('sec_similar') + '</div>' + sim + '</div>' : '')
 
@@ -1164,6 +1167,18 @@ function x(s) {
 // close the string early and silently break the click handler).
 function jsq(s) {
   return String(s || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+}
+
+// Extracts an 11-char YouTube video ID from any common URL shape
+// (watch?v=, youtu.be/, shorts/, embed/) or returns the input unchanged
+// if it already looks like a bare ID. Returns '' if nothing usable found.
+function extractYouTubeId(input) {
+  var s = String(input || '').trim();
+  if (!s) return '';
+  var m = s.match(/(?:youtube(?:-nocookie)?\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+  if (m) return m[1];
+  if (/^[A-Za-z0-9_-]{11}$/.test(s)) return s;
+  return '';
 }
 
 function attrJson(v) {
