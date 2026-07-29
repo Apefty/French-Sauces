@@ -50,6 +50,7 @@ export default {
     ti_uk: "25 хв",
     bs_uk: "Червоне вино/Бульйон з птиці",
       cl: "Paniot",  // Classic reference
-    photo: "./image/wine_mustard.jpg"
+    photo: "./image/wine_mustard.jpg",
+    yt: "https://youtu.be/GugRvpb3EQ0"
   }
 };
